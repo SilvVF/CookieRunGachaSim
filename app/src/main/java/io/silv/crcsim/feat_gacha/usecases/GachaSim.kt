@@ -4,6 +4,8 @@ import io.silv.crcsim.data.Cookie
 import io.silv.crcsim.data.allCookies
 import io.silv.crcsim.data.filterRarity
 import io.silv.crcsim.models.Rarity
+import java.time.LocalDateTime
+import java.time.ZoneId
 import kotlin.random.Random
 
 class CookieGachaSim {
@@ -75,7 +77,7 @@ class CookieGachaSim {
                 )
             }
         }
-        return CookieDrawResult(newPity, draw10)
+        return CookieDrawResult(newPity, draw10, LocalDateTime.now(ZoneId.systemDefault()))
     }
 
     private companion object {
@@ -123,7 +125,8 @@ class CookieGachaSim {
 
 data class CookieDrawResult(
     val newPity: Pity,
-    val result: List<CookieDraw>
+    val result: List<CookieDraw>,
+    val time: LocalDateTime
 )
 
 data class Pity(
@@ -134,7 +137,7 @@ data class Pity(
 
 fun Pity.update(cookieDraw: CookieDraw): Pity {
     return when (cookieDraw.full) {
-        true -> this
+        false -> this
         else -> {
             when (cookieDraw.cookie.rarity) {
                 "c" -> this.copy()

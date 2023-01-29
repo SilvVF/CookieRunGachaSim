@@ -1,7 +1,7 @@
 package io.silv.crcsim.data
 
-import io.silv.crcsim.feat_gacha.usecases.Rarity
-import io.silv.crcsim.feat_gacha.usecases.string
+import io.silv.crcsim.models.Rarity
+import io.silv.crcsim.models.string
 
 
 enum class Cookie(val id: String, val rarity: String) {
