@@ -3,6 +3,7 @@ package io.silv.crcsim.feat_gacha.usecases
 import io.silv.crcsim.data.Cookie
 import io.silv.crcsim.data.allCookies
 import io.silv.crcsim.data.filterRarity
+import io.silv.crcsim.models.Rarity
 import kotlin.random.Random
 
 class CookieGachaSim {
@@ -67,7 +68,7 @@ class CookieGachaSim {
                 add(
                     when {
                         newPity.any >= 10 -> anyPityDraw().also { newPity = newPity.update(it) }
-                        newPity.epic >= 100 -> anyPityDraw().also { newPity = newPity.update(it) }
+                        newPity.epic >= 100 -> epicPityDraw().also { newPity = newPity.update(it) }
                         newPity.other >= 250 -> getCookie(Rarity.Legendary).also { newPity = newPity.update(it) }
                         else ->  randomDraw().also { newPity = newPity.update(it) }
                     }
@@ -142,35 +143,6 @@ fun Pity.update(cookieDraw: CookieDraw): Pity {
                 else -> this.copy()
             }
         }
-    }
-
-}
-
-sealed interface Rarity {
-    object Common: Rarity
-    object Rare: Rarity
-    object Epic: Rarity
-    object Special: Rarity
-    object Legendary: Rarity
-}
-
-fun Rarity.string(): String {
-    return when (this) {
-        Rarity.Rare -> "r"
-        Rarity.Epic -> "e"
-        Rarity.Special -> "s"
-        Rarity.Legendary -> "l"
-        else -> "c"
-    }
-}
-
-fun Rarity.from(s: String): Rarity {
-    return when (s) {
-        "r" -> Rarity.Rare
-        "e" -> Rarity.Epic
-        "s" -> Rarity.Special
-        "l" -> Rarity.Legendary
-        else -> Rarity.Common
     }
 }
 
