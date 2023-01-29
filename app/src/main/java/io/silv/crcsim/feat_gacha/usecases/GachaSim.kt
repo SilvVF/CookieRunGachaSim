@@ -135,19 +135,17 @@ data class Pity(
     val other: Int = 0
 )
 
-fun Pity.update(cookieDraw: CookieDraw): Pity {
-    return when (cookieDraw.full) {
+fun Pity.update(cookieDraw: CookieDraw) =
+    when (cookieDraw.full) {
         false -> this
         else -> {
             when (cookieDraw.cookie.rarity) {
-                "c" -> this.copy()
-                in "s", "e" -> this.copy(any = 0, epic = 0)
-                "l" -> this.copy(any = 0, epic = 0, other = 0)
-                else -> this.copy()
+                Rarity.Common, Rarity.Rare -> this.copy(any = 0)
+                Rarity.Epic, Rarity.Special -> this.copy(any = 0, epic = 0)
+                Rarity.Legendary -> this.copy(any = 0, epic = 0, other = 0)
             }
         }
     }
-}
 
 data class CookieDraw(
     val cookie: Cookie,
