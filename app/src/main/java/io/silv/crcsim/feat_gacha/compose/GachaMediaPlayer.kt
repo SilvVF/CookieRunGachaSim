@@ -1,6 +1,5 @@
 package io.silv.crcsim.feat_gacha.compose
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
@@ -59,7 +58,8 @@ fun GachaMediaPlayer(
                     useController = false
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
                 }
-            }
+            },
+            update = {}
         )
     ) {
         onDispose { exoPlayer.release() }
