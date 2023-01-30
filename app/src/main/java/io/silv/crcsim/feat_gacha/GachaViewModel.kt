@@ -9,6 +9,7 @@ import io.silv.crcsim.feat_gacha.usecases.CookieDraw
 import io.silv.crcsim.feat_gacha.usecases.CookieDrawResult
 import io.silv.crcsim.feat_gacha.usecases.Draw10UseCase
 import io.silv.crcsim.feat_gacha.usecases.Pity
+import io.silv.crcsim.feat_gacha.usecases.PlayGachaRevealAnimations
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaStartAnimation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,8 @@ class GachaViewModel(
     private val cookieDao: CookieDao,
     private val exoPlayer: ExoPlayer,
     private val draw10: Draw10UseCase,
-    private val playGachaStartAnimation: PlayGachaStartAnimation
+    private val playGachaStartAnimation: PlayGachaStartAnimation,
+    private val playGachaRevealAnimations: PlayGachaRevealAnimations
 ) : ViewModel(), ContainerHost<GachaState, GachaEffect> {
 
     override val container = container<GachaState, GachaEffect>(
@@ -42,6 +44,7 @@ class GachaViewModel(
             state.copy(phase = GachaPhase.Started)
         }
         playGachaStartAnimation(exoPlayer)
+        playGachaRevealAnimations(exoPlayer, pull)
         reduce {
             state.copy(phase = GachaPhase.Waiting)
         }
