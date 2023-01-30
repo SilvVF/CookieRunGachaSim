@@ -1,7 +1,6 @@
 package io.silv.crcsim.data
 
 import io.silv.crcsim.models.Rarity
-import io.silv.crcsim.models.string
 
 
 enum class Cookie(val id: String, val rarity: Rarity) {
@@ -37,7 +36,7 @@ enum class Cookie(val id: String, val rarity: Rarity) {
     Jhope("J_Hope",Rarity.Special),
     Jimin("Jimin",Rarity.Special),
     V("V",Rarity.Special),
-    Jungkook("Jung_kook",Rarity.Special),
+    Jungkook("Jung_Kook",Rarity.Special),
 
     //Epic
     Darkchoco("Dark_Choco",Rarity.Epic),
@@ -67,7 +66,7 @@ enum class Cookie(val id: String, val rarity: Rarity) {
     Pumpkinpie("Pumpkin_Pie",Rarity.Epic),
     Macaron("Macaron",Rarity.Epic),
     Rye("Rye",Rarity.Epic),
-    Tigerlily("Tiger_lily",Rarity.Epic),
+    Tigerlily("Tiger_Lily",Rarity.Epic),
     Pastry("Pastry",Rarity.Epic),
     Twizzlygummy("Twizzly_Gummy",Rarity.Epic),
     Caramel("Caramel",Rarity.Epic),

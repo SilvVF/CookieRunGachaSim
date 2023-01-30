@@ -1,19 +1,23 @@
+@file:OptIn(ExperimentalAnimationApi::class)
+
 package io.silv.crcsim.feat_gacha
 
-import android.net.Uri
-import androidx.compose.foundation.clickable
+import Draw10Button
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.with
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import io.silv.crcsim.R
 import io.silv.crcsim.feat_gacha.compose.GachaMediaPlayer
 import org.koin.androidx.compose.koinViewModel
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun GachaScreen(
@@ -22,28 +26,31 @@ fun GachaScreen(
 ) {
 
     val ctx = LocalContext.current
+    val state by viewModel.collectAsState()
 
-    var playing by remember {
-        mutableStateOf(false)
-    }
 
-    val uri = remember {
-        Uri.parse(
-            "android.resource://" +
-                    ctx.packageName + "/" +
-                    R.raw.epic_pull
-        )
-    }
+    AnimatedContent(
+        targetState = state.phase,
+        modifier = Modifier.fillMaxSize(),
+        transitionSpec =  { fadeIn() with fadeOut() }
+    ) {
+        when(state.phase) {
+            GachaPhase.Waiting ->  {
+                Box(Modifier.fillMaxSize()) {
+                    Draw10Button(onClick = { viewModel.draw10Cookies() })
+                }
+            }
+            GachaPhase.Started ->  {
+                Box(Modifier.fillMaxSize()) {
+                    GachaMediaPlayer(
+                        modifier = Modifier.fillMaxSize(),
+                        exoPlayer = state.player
+                    )
+                }
+            }
+            is GachaPhase.Reveal ->  {
 
-    GachaMediaPlayer(
-        modifier = Modifier.fillMaxSize()
-            .clickable {
-                       playing = !playing
-            },
-        playing = playing,
-        uri = uri,
-        onCurrentPositionChange = { positionMillis ->
-
+            }
         }
-    )
+    }
 }
