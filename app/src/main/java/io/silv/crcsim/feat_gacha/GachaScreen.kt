@@ -8,8 +8,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -43,8 +45,8 @@ fun GachaScreen(
                     Draw10Button(onClick = { viewModel.draw10Cookies() })
                 }
             }
-            GachaPhase.Started ->  {
-                Box(Modifier.fillMaxSize()) {
+            GachaPhase.StartAnimation ->  {
+                Box(Modifier.fillMaxSize().clickable { viewModel.skipStartAnimation() }) {
                     GachaMediaPlayer(
                         modifier = Modifier.fillMaxSize(),
                         exoPlayer = state.player
@@ -59,12 +61,22 @@ fun GachaScreen(
                     },
                     cookieDraw = state.pull.result[state.revealIdx],
                     skipRevealAnimation = {
-                       // viewModel.skipRevealAnimation()
+                       viewModel.skipRevealAnimation()
                     },
                     revealNextItem = {
-                       // viewModel.revealNext()
+                        viewModel.revealNext(state.revealIdx + 1, state.pull)
                     }
                 )
+            }
+            is GachaPhase.Started -> {
+                Box(Modifier.fillMaxSize().clickable { viewModel.revealNext(0, state.pull) }) {
+                    Text("Started")
+                }
+            }
+            is GachaPhase.End -> {
+                Box(Modifier.fillMaxSize().clickable { viewModel.goToWaiting() }) {
+                    Text("End")
+                }
             }
         }
     }

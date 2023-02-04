@@ -8,6 +8,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import io.silv.crcsim.R
 import io.silv.crcsim.di.CrkDispatcher
 import io.silv.crcsim.models.Rarity
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
@@ -19,6 +20,7 @@ class PlayGachaRevealAnimation(
     suspend operator fun invoke(
         exoPlayer: ExoPlayer,
         cookieDraw: CookieDraw,
+        onStart: suspend () -> Unit
     ) = withContext(dispatcher.main) {
 
 
@@ -29,6 +31,8 @@ class PlayGachaRevealAnimation(
         )
         exoPlayer.prepare()
         exoPlayer.play()
+
+        coroutineScope { onStart() }
 
         while (true) {
             delay(100)

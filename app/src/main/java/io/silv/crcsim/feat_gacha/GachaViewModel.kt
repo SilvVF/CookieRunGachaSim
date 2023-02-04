@@ -15,6 +15,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.koin.core.context.startKoin
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -42,14 +44,76 @@ class GachaViewModel(
     fun draw10Cookies() = intent {
         val pull = draw10(Pity())
         reduce {
-            state.copy(phase = GachaPhase.Started)
+            state.copy(
+                phase = GachaPhase.StartAnimation,
+                pull = pull,
+                revealIdx = 0,
+            )
         }
         playGachaStartAnimation(exoPlayer)
         reduce {
-            state.copy(phase = GachaPhase.Waiting)
+            state.copy(
+                phase = GachaPhase.Started,
+                pull = pull,
+                revealIdx = 0,
+            )
         }
     }
-    
+
+    fun goToWaiting() = intent {
+        reduce {
+            state.copy(
+                phase = GachaPhase.Waiting
+            )
+        }
+    }
+
+    fun skipStartAnimation() = intent {
+        clearMediaItems()
+        reduce {
+            state.copy(
+                phase = GachaPhase.Started
+            )
+        }
+    }
+    fun skipRevealAnimation() = intent {
+        clearMediaItems()
+        reduce {
+            state.copy(
+                phase = GachaPhase.Reveal
+            )
+        }
+    }
+
+    private suspend fun clearMediaItems() = withContext(Dispatchers.Main) {
+        exoPlayer.clearMediaItems()
+    }
+    fun revealNext(nextIdx: Int, pull: CookieDrawResult) = intent {
+        if (nextIdx >= pull.result.lastIndex) {
+            reduce {
+                state.copy(phase = GachaPhase.End, revealIdx = 0)
+            }
+            return@intent
+        }
+        reduce { state.copy(revealIdx = nextIdx,) }
+        playGachaRevealAnimation(
+            exoPlayer = exoPlayer,
+            cookieDraw = pull.result[nextIdx],
+            onStart = {
+                reduce {
+                    state.copy(
+                        phase = GachaPhase.RevealAnimation
+                    )
+                }
+            }
+        )
+        reduce {
+            state.copy(
+                phase = GachaPhase.Reveal
+            )
+        }
+    }
+
 
     private fun test() = viewModelScope.launch {
         cookieDao.allCookiesFlow().first()?.let { list ->
@@ -85,10 +149,13 @@ sealed interface GachaPhase {
     /**
      * This represents the part from the witches house to the initial reveal of the cookies obtained
      */
+    object StartAnimation: GachaPhase
     object Started: GachaPhase
 
     object RevealAnimation: GachaPhase
     object Reveal: GachaPhase
+
+    object End: GachaPhase
 }
 
 sealed interface GachaEffect {
