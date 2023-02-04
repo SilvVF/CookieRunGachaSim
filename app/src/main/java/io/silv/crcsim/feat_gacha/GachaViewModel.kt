@@ -9,7 +9,7 @@ import io.silv.crcsim.feat_gacha.usecases.CookieDraw
 import io.silv.crcsim.feat_gacha.usecases.CookieDrawResult
 import io.silv.crcsim.feat_gacha.usecases.Draw10UseCase
 import io.silv.crcsim.feat_gacha.usecases.Pity
-import io.silv.crcsim.feat_gacha.usecases.PlayGachaRevealAnimations
+import io.silv.crcsim.feat_gacha.usecases.PlayGachaRevealAnimation
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaStartAnimation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +19,14 @@ import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.time.LocalDateTime
 
 class GachaViewModel(
     private val cookieDao: CookieDao,
     private val exoPlayer: ExoPlayer,
     private val draw10: Draw10UseCase,
     private val playGachaStartAnimation: PlayGachaStartAnimation,
-    private val playGachaRevealAnimations: PlayGachaRevealAnimations
+    private val playGachaRevealAnimation: PlayGachaRevealAnimation
 ) : ViewModel(), ContainerHost<GachaState, GachaEffect> {
 
     override val container = container<GachaState, GachaEffect>(
@@ -44,7 +45,6 @@ class GachaViewModel(
             state.copy(phase = GachaPhase.Started)
         }
         playGachaStartAnimation(exoPlayer)
-        playGachaRevealAnimations(exoPlayer, pull)
         reduce {
             state.copy(phase = GachaPhase.Waiting)
         }
@@ -71,25 +71,24 @@ data class GachaState(
     val player: ExoPlayer,
     val phase: GachaPhase = GachaPhase.Waiting,
     val cookies: List<CookieDraw> = emptyList(),
-    val total: Int = 0
+    val total: Int = 0,
+    val pull: CookieDrawResult = CookieDrawResult(Pity(), result = emptyList(), LocalDateTime.now()),
+    val revealIdx: Int = 0,
 )
 
-sealed class GachaPhase {
+sealed interface GachaPhase {
     /**
      * Object Representing the phase before the button to start a gacha pull is clicked
      */
-    object Waiting: GachaPhase()
+    object Waiting: GachaPhase
 
     /**
      * This represents the part from the witches house to the initial reveal of the cookies obtained
      */
-    object Started: GachaPhase()
+    object Started: GachaPhase
 
-    /**
-     * Data class representing the phase where the cookies come out of the over and are revealed.
-     * @property pull contains the current pull result [CookieDrawResult] that will be revealed.
-     */
-    data class Reveal(val pull: CookieDrawResult): GachaPhase()
+    object RevealAnimation: GachaPhase
+    object Reveal: GachaPhase
 }
 
 sealed interface GachaEffect {

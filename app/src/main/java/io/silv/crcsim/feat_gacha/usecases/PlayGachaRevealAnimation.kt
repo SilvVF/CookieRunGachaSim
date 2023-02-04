@@ -11,27 +11,21 @@ import io.silv.crcsim.models.Rarity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
-class PlayGachaRevealAnimations(
+class PlayGachaRevealAnimation(
     private val dispatcher: CrkDispatcher,
     private val ctx: Context,
 ) {
 
     suspend operator fun invoke(
         exoPlayer: ExoPlayer,
-        cookieDrawResult: CookieDrawResult,
+        cookieDraw: CookieDraw,
     ) = withContext(dispatcher.main) {
 
 
-        exoPlayer.setMediaItems(
-            buildList {
-                cookieDrawResult.result.forEach { cookieDraw ->
-                    if (cookieDraw.full) {
-                        add(
-                            MediaItem.fromUri(getVideoUri(cookieDraw.cookie.rarity))
-                        )
-                    }
-                }
-            }
+        exoPlayer.setMediaItem(
+                MediaItem.fromUri(
+                    getVideoUri(cookieDraw.cookie.rarity)
+                )
         )
         exoPlayer.prepare()
         exoPlayer.play()

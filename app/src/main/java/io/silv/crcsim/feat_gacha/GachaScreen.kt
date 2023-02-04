@@ -11,11 +11,14 @@ import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import io.silv.crcsim.feat_gacha.compose.GachaMediaPlayer
+import io.silv.crcsim.feat_gacha.compose.RevealScreen
 import org.koin.androidx.compose.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -48,8 +51,20 @@ fun GachaScreen(
                     )
                 }
             }
-            is GachaPhase.Reveal ->  {
-
+            is GachaPhase.Reveal, GachaPhase.RevealAnimation ->  {
+                RevealScreen(
+                    exoPlayer = state.player,
+                    playing = remember(state.phase) {
+                        derivedStateOf { state.phase == GachaPhase.RevealAnimation }.value
+                    },
+                    cookieDraw = state.pull.result[state.revealIdx],
+                    skipRevealAnimation = {
+                       // viewModel.skipRevealAnimation()
+                    },
+                    revealNextItem = {
+                       // viewModel.revealNext()
+                    }
+                )
             }
         }
     }
