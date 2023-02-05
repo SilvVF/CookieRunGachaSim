@@ -49,7 +49,7 @@ class PlayIdleUseAnimation(
         }
         while (true) {
             delay(30)
-            if (exoPlayer.contentPosition >= exoPlayer.contentDuration) {
+            if (exoPlayer.contentPosition >= exoPlayer.contentDuration && exoPlayer.mediaItemCount == 1) {
                 return@withContext
             }
         }

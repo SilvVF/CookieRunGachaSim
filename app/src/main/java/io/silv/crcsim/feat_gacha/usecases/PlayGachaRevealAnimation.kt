@@ -24,16 +24,15 @@ class PlayGachaRevealAnimation(
         onStart: suspend () -> Unit
     ) = withContext(dispatcher.main) {
 
-        exoPlayer.clearMediaItems()
-        exoPlayer.repeatMode = Player.REPEAT_MODE_OFF
-
-        exoPlayer.setMediaItem(
+        with(exoPlayer) {
+            setMediaItem(
                 MediaItem.fromUri(
                     getVideoUri(cookieDraw.cookie.rarity)
                 )
-        )
-        exoPlayer.prepare()
-        exoPlayer.play()
+            )
+            prepare()
+            play()
+        }
 
         coroutineScope { onStart() }
 
