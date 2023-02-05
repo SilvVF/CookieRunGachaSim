@@ -1,9 +1,9 @@
 package io.silv.crcsim.feat_gacha.compose
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -35,7 +35,7 @@ fun RevealScreen(
                     revealNextItem()
             }
     ) {
-        AnimatedContent(targetState = playing, transitionSpec = { fadeIn() with fadeOut() }) { playing ->
+        AnimatedContent(targetState = playing, transitionSpec = { fadeIn() with ExitTransition.None }) { playing ->
             if (playing) {
                 GachaMediaPlayer(exoPlayer = exoPlayer)
             } else {

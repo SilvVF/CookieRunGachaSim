@@ -35,13 +35,11 @@ class GachaViewModel(
     ) {
         init()
     }
+    private fun init() = intent { test() }
 
-    private fun init() = intent {
-        test()
-    }
-
-    fun drawCookies(amount: Int) = intent {
-        val pull = drawCookies(Pity(), amount)
+    fun startCookieGacha(drawAmount: Int) = intent {
+        assert(drawAmount in listOf(1, 10), lazyMessage = { "drawAmount was not 1 or 10 when starting gacha" })
+        val pull = drawCookies(Pity(), drawAmount)
         reduce {
             state.copy(
                 phase = GachaPhase.StartAnimation,

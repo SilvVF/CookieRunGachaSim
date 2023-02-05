@@ -4,7 +4,6 @@ package io.silv.crcsim.feat_gacha
 
 import Draw10Button
 import Draw1Button
-import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
@@ -46,8 +45,8 @@ fun GachaScreen(
         when(state.phase) {
             GachaPhase.Waiting ->  {
                 Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceAround) {
-                    Draw10Button(onClick = { viewModel.drawCookies(10) })
-                    Draw1Button(onClick = { viewModel.drawCookies(1)})
+                    Draw10Button(onClick = { viewModel.startCookieGacha(10) })
+                    Draw1Button(onClick = { viewModel.startCookieGacha(1)})
                 }
             }
             GachaPhase.StartAnimation ->  {
