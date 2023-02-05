@@ -11,8 +11,11 @@ import io.silv.crcsim.feat_gacha.usecases.DrawCookiesUseCase
 import io.silv.crcsim.feat_gacha.usecases.Pity
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaRevealAnimation
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaStartAnimation
+import io.silv.crcsim.feat_gacha.usecases.PlayIdleUseAnimation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,7 +30,8 @@ class GachaViewModel(
     private val exoPlayer: ExoPlayer,
     private val drawCookies: DrawCookiesUseCase,
     private val playGachaStartAnimation: PlayGachaStartAnimation,
-    private val playGachaRevealAnimation: PlayGachaRevealAnimation
+    private val playGachaRevealAnimation: PlayGachaRevealAnimation,
+    private val playGachaStartIdleUseAnimation: PlayIdleUseAnimation
 ) : ViewModel(), ContainerHost<GachaState, GachaEffect> {
 
     override val container = container<GachaState, GachaEffect>(
@@ -47,7 +51,7 @@ class GachaViewModel(
                 revealIdx = 0,
             )
         }
-        playGachaStartAnimation(exoPlayer)
+        playGachaStartAnimation(state.player)
         reduce {
             state.copy(
                 phase = GachaPhase.Started,
@@ -55,6 +59,17 @@ class GachaViewModel(
                 revealIdx = 0,
             )
         }
+    }
+
+    fun startRevealPhase() = intent {
+        coroutineScope {
+            async { playGachaStartIdleUseAnimation(state.player, false) }.await()
+            revealNext(0, state.pull)
+        }
+
+    }
+    fun playIdleAnim() = intent {
+        playGachaStartIdleUseAnimation(state.player, true)
     }
 
     fun goToWaiting() = intent {
@@ -94,7 +109,7 @@ class GachaViewModel(
         }
         reduce { state.copy(revealIdx = nextIdx,) }
         playGachaRevealAnimation(
-            exoPlayer = exoPlayer,
+            exoPlayer = state.player,
             cookieDraw = pull.result[nextIdx],
             onStart = {
                 reduce {

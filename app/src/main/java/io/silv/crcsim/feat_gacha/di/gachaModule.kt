@@ -6,6 +6,7 @@ import io.silv.crcsim.feat_gacha.usecases.CookieGachaSim
 import io.silv.crcsim.feat_gacha.usecases.DrawCookiesUseCase
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaRevealAnimation
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaStartAnimation
+import io.silv.crcsim.feat_gacha.usecases.PlayIdleUseAnimation
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
@@ -22,6 +23,7 @@ val gachaModule = module {
     factoryOf(::DrawCookiesUseCase)
     factoryOf(::PlayGachaStartAnimation)
     factoryOf(::PlayGachaRevealAnimation)
+    factoryOf(::PlayIdleUseAnimation)
 
 
     viewModelOf(::GachaViewModel)

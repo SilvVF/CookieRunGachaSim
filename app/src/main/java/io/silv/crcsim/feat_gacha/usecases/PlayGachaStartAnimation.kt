@@ -23,17 +23,14 @@ class PlayGachaStartAnimation(
                     ctx.packageName + "/" +
                     R.raw.intro_single_epic
         )
-
+        exoPlayer.clearMediaItems()
         exoPlayer.setMediaItem(MediaItem.fromUri(uri))
         exoPlayer.prepare()
         exoPlayer.play()
 
         while (true) {
-            delay(100)
-            if (
-                !exoPlayer.hasNextMediaItem() &&
-                exoPlayer.contentPosition >= exoPlayer.contentDuration
-            ) {
+            delay(30)
+            if (exoPlayer.contentPosition >= exoPlayer.contentDuration) {
                 return@withContext
             }
         }

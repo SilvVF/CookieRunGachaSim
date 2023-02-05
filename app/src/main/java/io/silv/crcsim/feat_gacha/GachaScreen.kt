@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -43,13 +44,13 @@ fun GachaScreen(
         transitionSpec =  { fadeIn() with fadeOut() }
     ) {
         when(state.phase) {
-            GachaPhase.Waiting ->  {
+            is GachaPhase.Waiting ->  {
                 Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceAround) {
                     Draw10Button(onClick = { viewModel.startCookieGacha(10) })
                     Draw1Button(onClick = { viewModel.startCookieGacha(1)})
                 }
             }
-            GachaPhase.StartAnimation ->  {
+            is GachaPhase.StartAnimation ->  {
                 Box(
                     Modifier
                         .fillMaxSize()
@@ -76,11 +77,17 @@ fun GachaScreen(
                 )
             }
             is GachaPhase.Started -> {
+                LaunchedEffect(key1 = true) {
+                    viewModel.playIdleAnim()
+                }
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .clickable { viewModel.revealNext(0, state.pull) }) {
-                    Text("Started")
+                        .clickable {
+                            viewModel.startRevealPhase()
+                        }
+                ) {
+                    GachaMediaPlayer(exoPlayer = state.player, modifier = Modifier.fillMaxSize())
                 }
             }
             is GachaPhase.End -> {

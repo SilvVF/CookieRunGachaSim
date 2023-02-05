@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.RawRes
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import io.silv.crcsim.R
 import io.silv.crcsim.di.CrkDispatcher
@@ -23,6 +24,8 @@ class PlayGachaRevealAnimation(
         onStart: suspend () -> Unit
     ) = withContext(dispatcher.main) {
 
+        exoPlayer.clearMediaItems()
+        exoPlayer.repeatMode = Player.REPEAT_MODE_OFF
 
         exoPlayer.setMediaItem(
                 MediaItem.fromUri(
@@ -35,7 +38,7 @@ class PlayGachaRevealAnimation(
         coroutineScope { onStart() }
 
         while (true) {
-            delay(100)
+            delay(30)
             if (exoPlayer.contentPosition >= exoPlayer.contentDuration) {
                 return@withContext
             }
