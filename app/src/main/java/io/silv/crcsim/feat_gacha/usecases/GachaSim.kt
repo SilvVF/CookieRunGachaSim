@@ -61,12 +61,12 @@ class CookieGachaSim {
         }
     }
 
-    fun draw10Cookies(pity: Pity): CookieDrawResult {
+    fun drawCookies(pity: Pity, amount: Int): CookieDrawResult {
 
         var newPity = pity.copy()
 
-        val draw10 = buildList<CookieDraw> {
-            repeat(10) {
+        val pull = buildList<CookieDraw> {
+            repeat(amount) {
                 add(
                     when {
                         newPity.any >= 10 -> anyPityDraw().also { newPity = newPity.update(it) }
@@ -77,7 +77,7 @@ class CookieGachaSim {
                 )
             }
         }
-        return CookieDrawResult(newPity, draw10, LocalDateTime.now(ZoneId.systemDefault()))
+        return CookieDrawResult(newPity, pull, LocalDateTime.now(ZoneId.systemDefault()))
     }
 
     private companion object {

@@ -3,13 +3,17 @@
 package io.silv.crcsim.feat_gacha
 
 import Draw10Button
+import Draw1Button
+import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,12 +45,16 @@ fun GachaScreen(
     ) {
         when(state.phase) {
             GachaPhase.Waiting ->  {
-                Box(Modifier.fillMaxSize()) {
-                    Draw10Button(onClick = { viewModel.draw10Cookies() })
+                Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceAround) {
+                    Draw10Button(onClick = { viewModel.drawCookies(10) })
+                    Draw1Button(onClick = { viewModel.drawCookies(1)})
                 }
             }
             GachaPhase.StartAnimation ->  {
-                Box(Modifier.fillMaxSize().clickable { viewModel.skipStartAnimation() }) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .clickable { viewModel.skipStartAnimation() }) {
                     GachaMediaPlayer(
                         modifier = Modifier.fillMaxSize(),
                         exoPlayer = state.player
@@ -69,12 +77,18 @@ fun GachaScreen(
                 )
             }
             is GachaPhase.Started -> {
-                Box(Modifier.fillMaxSize().clickable { viewModel.revealNext(0, state.pull) }) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .clickable { viewModel.revealNext(0, state.pull) }) {
                     Text("Started")
                 }
             }
             is GachaPhase.End -> {
-                Box(Modifier.fillMaxSize().clickable { viewModel.goToWaiting() }) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .clickable { viewModel.goToWaiting() }) {
                     Text("End")
                 }
             }

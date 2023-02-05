@@ -4,17 +4,17 @@ import io.silv.crcsim.data.datastore.UserDataStore
 import io.silv.crcsim.data.room.CookieDao
 import kotlinx.coroutines.coroutineScope
 
-class Draw10UseCase(
+class DrawCookiesUseCase(
     private val cookieDao: CookieDao,
     private val gacha: CookieGachaSim,
-    private val userDataStore: UserDataStore
+    private val userDataStore: UserDataStore,
 ) {
 
-    suspend operator fun invoke(pity: Pity): CookieDrawResult {
+    suspend operator fun invoke(pity: Pity, amount: Int): CookieDrawResult {
         coroutineScope {
-            userDataStore.addCrystals(3000)
+            userDataStore.addCrystals(amount * 300)
         }
-        return gacha.draw10Cookies(pity)
+        return gacha.drawCookies(pity, amount)
             .also { cookieResList ->
                 cookieResList.result.forEach { cookieRes ->
                     cookieDao.getCookieByName(cookieRes.cookie.name)?.let {
@@ -26,3 +26,4 @@ class Draw10UseCase(
         }
     }
 }
+

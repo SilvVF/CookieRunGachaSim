@@ -7,7 +7,7 @@ import io.silv.crcsim.data.allCookies
 import io.silv.crcsim.data.room.CookieDao
 import io.silv.crcsim.feat_gacha.usecases.CookieDraw
 import io.silv.crcsim.feat_gacha.usecases.CookieDrawResult
-import io.silv.crcsim.feat_gacha.usecases.Draw10UseCase
+import io.silv.crcsim.feat_gacha.usecases.DrawCookiesUseCase
 import io.silv.crcsim.feat_gacha.usecases.Pity
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaRevealAnimation
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaStartAnimation
@@ -16,7 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.core.context.startKoin
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -26,7 +25,7 @@ import java.time.LocalDateTime
 class GachaViewModel(
     private val cookieDao: CookieDao,
     private val exoPlayer: ExoPlayer,
-    private val draw10: Draw10UseCase,
+    private val drawCookies: DrawCookiesUseCase,
     private val playGachaStartAnimation: PlayGachaStartAnimation,
     private val playGachaRevealAnimation: PlayGachaRevealAnimation
 ) : ViewModel(), ContainerHost<GachaState, GachaEffect> {
@@ -41,8 +40,8 @@ class GachaViewModel(
         test()
     }
 
-    fun draw10Cookies() = intent {
-        val pull = draw10(Pity())
+    fun drawCookies(amount: Int) = intent {
+        val pull = drawCookies(Pity(), amount)
         reduce {
             state.copy(
                 phase = GachaPhase.StartAnimation,
@@ -89,7 +88,7 @@ class GachaViewModel(
         exoPlayer.clearMediaItems()
     }
     fun revealNext(nextIdx: Int, pull: CookieDrawResult) = intent {
-        if (nextIdx >= pull.result.lastIndex) {
+        if (nextIdx > pull.result.lastIndex) {
             reduce {
                 state.copy(phase = GachaPhase.End, revealIdx = 0)
             }
