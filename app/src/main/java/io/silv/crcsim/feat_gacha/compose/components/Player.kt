@@ -1,6 +1,6 @@
 @file:androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
 
-package io.silv.crcsim.feat_gacha.compose
+package io.silv.crcsim.feat_gacha.compose.components
 
 
 import android.os.Looper
@@ -27,7 +27,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -36,6 +35,7 @@ import kotlinx.coroutines.launch
 fun Player(
      mediaItem: MediaItem,
      contentPosition: (millis: Long) -> Unit = { _ -> },
+     playerBlock: ExoPlayer.() -> Unit = {  },
      mediaEnd: () -> Unit
 ) {
     val context = LocalContext.current
@@ -49,6 +49,7 @@ fun Player(
     val player = remember {
         ExoPlayer.Builder(context)
             .build().apply {
+                playerBlock()
                 setMediaItem(mediaItem)
                 prepare()
                 playWhenReady = autoPlay
@@ -65,6 +66,7 @@ fun Player(
                             /* mediaItemIndex= */0,
                             /* positionMs= */player.contentDuration
                         )
+                        .setDeleteAfterDelivery(true)
                         .send()
                 }
             }

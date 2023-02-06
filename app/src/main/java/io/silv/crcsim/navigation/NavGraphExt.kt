@@ -10,7 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import io.silv.crcsim.feat_gacha.GachaNavHost
-import io.silv.crcsim.feat_gacha.GachaScreen
+import io.silv.crcsim.feat_gacha.compose.GachaRoute
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -35,12 +35,12 @@ fun NavGraphBuilder.gachaScreen(
 ) { GachaNavHost() }
 
 @OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.composableFadeAnims(
-    route: String,
+fun NavGraphBuilder.composableFadeAnim(
+    route: GachaRoute,
     navController: NavController,
     content: @Composable (navController: NavController) -> Unit
 ) = this.composable(
-    route,
+    route.route,
     enterTransition = {
         fadeIn()
     },
@@ -54,3 +54,8 @@ fun NavGraphBuilder.composableFadeAnims(
         fadeOut()
     }
 ) { content(navController) }
+
+
+fun NavController.toGachaDest(
+    gachaRoute: GachaRoute
+) = this.navigate(gachaRoute.route)
