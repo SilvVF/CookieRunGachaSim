@@ -54,8 +54,8 @@ fun CrButton(
 
     LaunchedEffect(key1 = pressed) {
         if (pressed) {
-            val w = async { width.animateTo(endWidth) }
-            val h = async { height.animateTo(endHeight) }
+            launch { width.animateTo(endWidth) }
+            launch { height.animateTo(endHeight) }
         } else {
             launch { width.animateTo(idleWidth) }
             launch { height.animateTo(idleHeight) }
@@ -87,6 +87,7 @@ fun CrButton(
             )
             .clickable(interactionSource, null) {
                 scope.launch {
+                    launch { onClick() }
                     launch { playAnim() }
                 }
             }
