@@ -2,6 +2,7 @@ package io.silv.crcsim.feat_gacha.di
 
 import androidx.media3.exoplayer.ExoPlayer
 import io.silv.crcsim.feat_gacha.GachaViewModel
+import io.silv.crcsim.feat_gacha.GachaViewModelNew
 import io.silv.crcsim.feat_gacha.usecases.CookieGachaSim
 import io.silv.crcsim.feat_gacha.usecases.DrawCookiesUseCase
 import io.silv.crcsim.feat_gacha.usecases.PlayGachaRevealAnimation
@@ -27,4 +28,5 @@ val gachaModule = module {
 
 
     viewModelOf(::GachaViewModel)
+    viewModelOf(::GachaViewModelNew)
 }
