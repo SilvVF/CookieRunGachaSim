@@ -7,10 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
@@ -18,11 +14,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import io.silv.crcsim.navigation.AnimatedNavigation
 import io.silv.crcsim.navigation.Navigations
 import io.silv.crcsim.ui.theme.CrcSimTheme
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -31,7 +28,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            val vm = getViewModel<MainActivityViewModel>()
+            val vm = koinViewModel<MainActivityViewModel>()
 
             CrcSimTheme {
 
@@ -41,8 +38,12 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     var selectedItem by remember { mutableStateOf(0) }
-                    val items = listOf("Gacha", "Search", "Settings")
-                    val icons = listOf(Icons.Filled.Home, Icons.Filled.Search, Icons.Filled.Settings)
+                    val items = listOf("Cookies", "Costumes", "Treasures")
+                    val icons = listOf(
+                        painterResource(id = R.drawable.cookies_selected),
+                        painterResource(id = R.drawable.cookies_unselected),
+                        painterResource(id = R.drawable.cookies_unselected)
+                    )
                     val navController = rememberAnimatedNavController()
 
                     Navigations(

@@ -17,7 +17,7 @@ fun AnimatedNavigation(
 
     AnimatedNavHost(navController = navController, startDestination = start) {
         gachaScreen(
-            route = "Gacha",
+            route = "Cookies",
             navController
         )
     }
