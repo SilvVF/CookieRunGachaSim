@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,7 +32,8 @@ import org.orbitmvi.orbit.compose.collectAsState
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun GachaNavHost(
-    viewModel: GachaViewModel = koinViewModel()
+    viewModel: GachaViewModel = koinViewModel(),
+    gachaInProgress: (inProgress: Boolean) -> Unit
 ) {
 
     val navHostController = rememberAnimatedNavController()
@@ -40,18 +42,26 @@ fun GachaNavHost(
 
     AnimatedNavHost(navController = navHostController, startDestination = GachaRoute.Waiting.route) {
 
+
         composableFadeAnim(
             GachaRoute.Waiting,
             navController = navHostController
         ) { navController, _ ->
 
+            LaunchedEffect(key1 = true) {
+                gachaInProgress(false)
+            }
+
             WaitingScreen(
+                crystals = state.crystalsSpent,
                 onDraw1Click = {
                     viewModel.handleDraw1Click()
+                    gachaInProgress(true)
                     navController.toGachaDest(GachaRoute.Start)
                 },
                 onDraw10Click = {
                     viewModel.handleDraw10Click()
+                    gachaInProgress(true)
                     navController.toGachaDest(GachaRoute.Start)
                 }
             )

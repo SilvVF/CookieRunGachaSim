@@ -21,12 +21,14 @@ import com.google.accompanist.navigation.animation.composable
 fun AnimatedNavigation(
     navController: NavHostController,
     start: String,
+    navRailVisible: (Boolean) -> Unit
 ) {
 
     AnimatedNavHost(navController = navController, startDestination = start) {
         gachaScreen(
             route = "Cookies",
-            navController
+            gachaInProgress = { inProgress -> navRailVisible(!inProgress) },
+            navController = navController,
         )
 
         composable("Artifacts",

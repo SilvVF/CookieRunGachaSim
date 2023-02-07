@@ -1,9 +1,11 @@
 package io.silv.crcsim.navigation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,22 +26,28 @@ data class NavItem(
 fun Navigations(
     selectedItem: Int,
     navItems: List<NavItem>,
+    navRailVisible: Boolean = true,
     onSelected: (Int) -> Unit,
     content: @Composable RowScope.() -> Unit
 ) {
    Row(
        modifier = Modifier.fillMaxSize(),
        verticalAlignment = Alignment.Top,
-       horizontalArrangement = Arrangement.Start
+       horizontalArrangement = Arrangement.Start,
    ) {
 
        val screenWidth = LocalConfiguration.current.screenWidthDp
 
        NavigationRail(
            containerColor = DarkBlueNavRail,
-           modifier = Modifier.width((screenWidth * 0.12f).dp)
+           modifier = Modifier.width(if (!navRailVisible) 0.dp else (screenWidth * 0.1f).dp)
        ) {
-           Image(painter = painterResource(R.drawable.top_oven_icon), contentDescription = "oven_small")
+           Image(
+               modifier = Modifier.fillMaxWidth(0.6f),
+               painter = painterResource(R.drawable.top_oven_icon),
+               contentDescription = "oven_small"
+           )
+           Box(modifier = Modifier.fillMaxWidth(0.6f).height(0.8.dp).border(0.8.dp, Color.DarkGray))
            navItems.forEachIndexed { index, (label, selectedIcon, unselectedIcon) ->
                NavigationRailItem(
                    icon = {

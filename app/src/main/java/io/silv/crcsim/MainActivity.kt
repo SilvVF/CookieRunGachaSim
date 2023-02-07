@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.core.view.WindowCompat
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import io.silv.crcsim.navigation.AnimatedNavigation
 import io.silv.crcsim.navigation.NavItem
@@ -27,15 +28,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
 
             val vm = koinViewModel<MainActivityViewModel>()
 
             CrcSimTheme {
-
-                // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .windowInsetsPadding(
+                            WindowInsets.systemBars.only(
+                                WindowInsetsSides.Vertical
+                            )
+                        ),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     var selectedItem by remember { mutableStateOf(0) }
@@ -53,6 +60,10 @@ class MainActivity : ComponentActivity() {
                     )
                     val navController = rememberAnimatedNavController()
 
+                    var navRailVisible by remember {
+                        mutableStateOf(true)
+                    }
+
                     Navigations(
                         selectedItem = selectedItem,
                         navItems = items,
@@ -61,12 +72,15 @@ class MainActivity : ComponentActivity() {
                                 selectedItem = it
                                 navController.navigate(items[selectedItem].label)
                             }
-                        }
+                        },
+                        navRailVisible = navRailVisible
                     ) {
                         AnimatedNavigation(
                             navController = navController,
                             start = items[0].label,
-                        )
+                        ) { visible ->
+                            navRailVisible = visible
+                        }
                     }
                 }
             }

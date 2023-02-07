@@ -80,7 +80,7 @@ class CookieGachaSim {
                 )
             }
         }
-        return CookieDrawResult(newPity, pull, LocalDateTime.now(ZoneId.systemDefault()))
+        return CookieDrawResult(newPity.copy(), pull, LocalDateTime.now(ZoneId.systemDefault()))
     }
 
     private companion object {

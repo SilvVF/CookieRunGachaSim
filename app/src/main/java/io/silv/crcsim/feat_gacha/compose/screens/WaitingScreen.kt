@@ -13,11 +13,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.silv.crcsim.R
+import io.silv.crcsim.feat_gacha.compose.components.CrystalStatusBar
 import io.silv.crcsim.feat_gacha.compose.components.Particles
 import kotlinx.coroutines.delay
 
 @Composable
 fun WaitingScreen(
+    crystals: Int = 0,
     onDraw10Click: () -> Unit,
     onDraw1Click: () -> Unit,
 ) {
@@ -60,6 +62,15 @@ fun WaitingScreen(
                 quantity = 30,
                 emoji = ".",
                 visible = !visible
+            )
+            CrystalStatusBar(
+                crystals = crystals,
+                imageWidth = 38f,
+                modifier = Modifier
+                    .padding(end = 40.dp)
+                    .align(Alignment.TopEnd)
+                    .height(40.dp)
+                    .fillMaxWidth(0.2f)
             )
             Row(
                 Modifier

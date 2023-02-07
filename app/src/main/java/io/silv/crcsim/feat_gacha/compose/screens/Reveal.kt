@@ -40,22 +40,27 @@ fun RevealScreen(
            )
        )
 
-//    fun getSoulstoneMediaItemFromRarity(rarity: Rarity): MediaItem = when(rarity) {
-//        Rarity.Common -> TODO()
-//        Rarity.Epic -> TODO()
-//        Rarity.Legendary -> TODO()
-//        Rarity.Rare -> TODO()
-//        Rarity.Special -> TODO()
-//    }
+    fun getSoulstoneMediaItemFromRarity(rarity: Rarity): MediaItem = MediaItem.fromUri(
+        Uri.parse(
+            "android.resource://" +
+                    ctx.packageName + "/" +
+                    when(rarity) {
+                        Rarity.Common -> R.raw.common_soulstone_oven
+                        Rarity.Rare -> R.raw.soulstone_oven_rare
+                        Rarity.Epic, Rarity.Legendary, Rarity.Special -> R.raw.soulstone_oven_epic
+                    }
+        )
+    )
 
     Box(Modifier.clickable(remember{ MutableInteractionSource() }, null) {
         onNavigate()
     }) {
        Player(
-           mediaItem = getCookieMediaItemFromRarity(cookieDraw.cookie.rarity),
-           playerBlock = {
-
-           },
+           mediaItem = if (cookieDraw.full)
+               getCookieMediaItemFromRarity(cookieDraw.cookie.rarity)
+           else
+               getSoulstoneMediaItemFromRarity(cookieDraw.cookie.rarity),
+           playerBlock = {},
            mediaEnd =  {
                onNavigate()
            }
