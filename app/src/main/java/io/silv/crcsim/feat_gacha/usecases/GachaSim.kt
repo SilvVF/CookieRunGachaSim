@@ -32,7 +32,7 @@ class CookieGachaSim {
     }
 
     private fun randomDraw(): CookieDraw {
-        return when (Random.nextDouble(0.0, combinedRates)) {
+        return when (Random(seed = System.currentTimeMillis()).nextDouble(0.0, combinedRates)) {
             in commonRange -> { getCookie(Rarity.Common) }
             in rareRange -> { getCookie(Rarity.Rare) }
             in epicRange -> { getCookie(Rarity.Epic) }
@@ -47,7 +47,7 @@ class CookieGachaSim {
     }
 
     private fun anyPityDraw(): CookieDraw {
-        return when (Random.nextDouble(0.0, cookieRates.sum())) {
+        return when (Random(seed = System.currentTimeMillis()).nextDouble(0.0, cookieRates.sum())) {
             in commonRange -> {  getCookie(Rarity.Common) }
             in rareRange -> { getCookie(Rarity.Rare) }
             in epicRange -> { getCookie(Rarity.Epic) }
@@ -57,7 +57,7 @@ class CookieGachaSim {
     }
 
     private fun epicPityDraw(): CookieDraw {
-        return when(Random.nextDouble(epicRange.start, legendaryRange.endInclusive)) {
+        return when(Random(System.currentTimeMillis()).nextDouble(epicRange.start, legendaryRange.endInclusive)) {
             in epicRange -> { getCookie(Rarity.Epic) }
             in superEpicRange -> { getCookie(Rarity.Special) }
             else -> { getCookie(Rarity.Legendary) }
@@ -72,9 +72,9 @@ class CookieGachaSim {
             repeat(amount) {
                 add(
                     when {
-                        newPity.any >= 10 -> anyPityDraw().also { newPity = newPity.update(it) }
-                        newPity.epic >= 100 -> epicPityDraw().also { newPity = newPity.update(it) }
                         newPity.other >= 250 -> getCookie(Rarity.Legendary).also { newPity = newPity.update(it) }
+                        newPity.epic >= 100 -> epicPityDraw().also { newPity = newPity.update(it) }
+                        newPity.any >= 10 -> anyPityDraw().also { newPity = newPity.update(it) }
                         else ->  randomDraw().also { newPity = newPity.update(it) }
                     }
                 )
