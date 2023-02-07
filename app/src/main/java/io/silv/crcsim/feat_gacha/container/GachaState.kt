@@ -1,7 +1,8 @@
 package io.silv.crcsim.feat_gacha.container
 
-import io.silv.crcsim.feat_gacha.usecases.CookieDrawResult
-import io.silv.crcsim.feat_gacha.usecases.Pity
+
+import io.silv.crcsim.feat_gacha.CookieDrawResult
+import io.silv.crcsim.feat_gacha.Pity
 import java.time.LocalDateTime
 
 data class GachaState(

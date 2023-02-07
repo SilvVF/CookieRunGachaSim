@@ -6,6 +6,7 @@ sealed class GachaRoute(val route: String) {
     object Start: GachaRoute("start")
     object Idle:  GachaRoute("idle")
     object IdleEnd:  GachaRoute( "idle-end")
-    object Reveal: GachaRoute( "reveal")
+    data class Reveal(val idx: Int): GachaRoute( "reveal/{idx}")
+    data class RevealIdle(val idx: Int): GachaRoute( "reveal-idle/{idx}")
     object End:  GachaRoute("end")
 }

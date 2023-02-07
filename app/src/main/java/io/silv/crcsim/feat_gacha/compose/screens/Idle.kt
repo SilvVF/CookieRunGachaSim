@@ -71,7 +71,7 @@ fun IdleEndScreen(
         ),
         contentPosition = {currentMillis = it}
     ) {
-        onNavigate(GachaRoute.Waiting)
+        onNavigate(GachaRoute.Reveal(0))
     }
     Text("$currentMillis")
 }
