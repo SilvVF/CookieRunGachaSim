@@ -97,7 +97,7 @@ fun CrButton(
 @Composable
 fun Draw1Button(
     onClick: () -> Unit,
-    height: Float = 50f
+    height: Float = 67f
 ) {
     CrButton(
         painter = painterResource(id = R.drawable.draw1),
@@ -110,7 +110,7 @@ fun Draw1Button(
 @Composable
 fun Draw10Button(
     onClick: () -> Unit,
-    height: Float = 50f
+    height: Float = 67f
 ) {
     CrButton(
         painter = painterResource(id = R.drawable.draw10),
