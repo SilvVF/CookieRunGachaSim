@@ -15,6 +15,7 @@ import io.silv.crcsim.feat_gacha.compose.GachaRoute
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.gachaScreen(
     route: String,
+    gachaInProgress: (Boolean) -> Unit,
     navController: NavController
 ) = this.composable(
     route,
@@ -25,13 +26,13 @@ fun NavGraphBuilder.gachaScreen(
         slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
     },
     popEnterTransition = {
-        slideIntoContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700))
+        slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
     },
     popExitTransition = {
-        slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700))
+        slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
 
     }
-) { GachaNavHost() }
+) { GachaNavHost { inProgress -> gachaInProgress(inProgress)  } }
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.composableFadeAnim(

@@ -7,5 +7,6 @@ import java.time.LocalDateTime
 
 data class GachaState(
     val pull: CookieDrawResult = CookieDrawResult(Pity(), emptyList(), LocalDateTime.now()),
-    val pity: Pity = Pity()
+    val pity: Pity = Pity(),
+    val crystalsSpent: Int = 0
 )

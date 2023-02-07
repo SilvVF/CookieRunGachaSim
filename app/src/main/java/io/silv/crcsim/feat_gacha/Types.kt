@@ -16,9 +16,13 @@ data class Pity(
     val other: Int = 0
 )
 
-fun Pity.update(cookieDraw: CookieDraw) =
+fun Pity.update(cookieDraw: CookieDraw): Pity =
     when (cookieDraw.full) {
-        false -> this
+        false -> Pity(
+            any = this.any + 1,
+            epic = this.epic + 1,
+            other = this.other + 1
+        )
         else -> {
             when (cookieDraw.cookie.rarity) {
                 Rarity.Common, Rarity.Rare -> this.copy(any = 0)

@@ -13,11 +13,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.silv.crcsim.R
+import io.silv.crcsim.feat_gacha.compose.components.CrystalStatusBar
 import io.silv.crcsim.feat_gacha.compose.components.Particles
 import kotlinx.coroutines.delay
 
 @Composable
 fun WaitingScreen(
+    crystals: Int = 0,
     onDraw10Click: () -> Unit,
     onDraw1Click: () -> Unit,
 ) {
@@ -48,30 +50,33 @@ fun WaitingScreen(
                 modifier =  Modifier.fillMaxSize()
             )
             Particles(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 quantity = 30,
                 emoji = ".",
                 visible = visible
             )
             Particles(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 quantity = 30,
                 emoji = ".",
                 visible = !visible
             )
-            Row(
-                Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(32.dp)){
-                Draw1Button(
-                    onClick = onDraw1Click,
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Draw10Button(
-                    onClick = onDraw10Click,
-                )
+            CrystalStatusBar(
+                crystals = crystals,
+                imageWidth = 38f,
+                modifier = Modifier
+                    .padding(end = 40.dp)
+                    .align(Alignment.TopEnd)
+                    .height(40.dp)
+                    .fillMaxWidth(0.2f)
+            )
+            Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.BottomEnd) {
+                Draw1Button(onClick = onDraw1Click)
+            }
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
+                Box(modifier = Modifier.padding(end  = 186.dp, bottom = 32.dp)) {
+                    Draw10Button(onClick = onDraw10Click)
+                }
             }
         }
     }

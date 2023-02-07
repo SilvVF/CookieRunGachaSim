@@ -2,11 +2,12 @@
 
 buildscript {
     ext {
-        orbit = "4.5.0"
-        room_version = "2.5.0"
-        koin_version= "3.3.2"
-        koin_android_version= "3.3.2"
-        koin_android_compose_version= "3.4.1"
+        orbit                = "4.5.0"
+        room_version         = "2.5.0"
+        koin_version         = "3.3.2"
+        koin_android_version = "3.3.2"
+        koin_compose_version = "3.4.1"
+        coil_version         = "2.2.2"
 
         lifecycleVersion     = '2.4.1'
         roomVersion          = '2.5.0'

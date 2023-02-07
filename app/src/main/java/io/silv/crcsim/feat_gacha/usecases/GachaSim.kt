@@ -16,18 +16,14 @@ class CookieGachaSim {
     private fun getCookie(rarity: Rarity): CookieDraw {
         val cookie =  allCookies().filterRarity(rarity)
             .ifEmpty { throw IllegalStateException("Cookie List Was Empty for rarity $rarity") }
-            .random(
-                random = Random(System.currentTimeMillis())
-            )
+            .random()
         return CookieDraw(cookie, true, 20)
     }
 
     private fun getSoulStones(rarity: Rarity): CookieDraw {
         val cookie = allCookies().filterRarity(rarity)
             .ifEmpty { throw IllegalStateException("Soulstone List Was Empty for rarity $rarity") }
-            .random(
-                random = Random(System.currentTimeMillis())
-            )
+            .random()
         return CookieDraw(cookie, false, Random.nextInt(3, 6))
     }
 
@@ -57,7 +53,7 @@ class CookieGachaSim {
     }
 
     private fun epicPityDraw(): CookieDraw {
-        return when(Random.nextDouble(epicRange.start, legendaryRange.endInclusive)) {
+        return when(Random(System.currentTimeMillis()).nextDouble(epicRange.start, legendaryRange.endInclusive)) {
             in epicRange -> { getCookie(Rarity.Epic) }
             in superEpicRange -> { getCookie(Rarity.Special) }
             else -> { getCookie(Rarity.Legendary) }
@@ -72,15 +68,15 @@ class CookieGachaSim {
             repeat(amount) {
                 add(
                     when {
-                        newPity.any >= 10 -> anyPityDraw().also { newPity = newPity.update(it) }
-                        newPity.epic >= 100 -> epicPityDraw().also { newPity = newPity.update(it) }
                         newPity.other >= 250 -> getCookie(Rarity.Legendary).also { newPity = newPity.update(it) }
+                        newPity.epic >= 100 -> epicPityDraw().also { newPity = newPity.update(it) }
+                        newPity.any >= 10 -> anyPityDraw().also { newPity = newPity.update(it) }
                         else ->  randomDraw().also { newPity = newPity.update(it) }
                     }
                 )
             }
         }
-        return CookieDrawResult(newPity, pull, LocalDateTime.now(ZoneId.systemDefault()))
+        return CookieDrawResult(newPity.copy(), pull, LocalDateTime.now(ZoneId.systemDefault()))
     }
 
     private companion object {

@@ -57,7 +57,8 @@ fun Player(
             }
             .also { player ->
                 scope.launch {
-                    delay(1000)
+                    // Delay to stop the call to player.contentDuration returning C.unset
+                    delay(50)
                     player.createMessage { _, _ ->
                         mediaEnd()
                     }
