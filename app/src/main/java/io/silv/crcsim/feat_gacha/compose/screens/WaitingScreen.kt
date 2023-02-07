@@ -50,15 +50,13 @@ fun WaitingScreen(
                 modifier =  Modifier.fillMaxSize()
             )
             Particles(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 quantity = 30,
                 emoji = ".",
                 visible = visible
             )
             Particles(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier.fillMaxSize(),
                 quantity = 30,
                 emoji = ".",
                 visible = !visible
@@ -72,17 +70,13 @@ fun WaitingScreen(
                     .height(40.dp)
                     .fillMaxWidth(0.2f)
             )
-            Row(
-                Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(32.dp)){
-                Draw1Button(
-                    onClick = onDraw1Click,
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Draw10Button(
-                    onClick = onDraw10Click,
-                )
+            Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.BottomEnd) {
+                Draw1Button(onClick = onDraw1Click)
+            }
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
+                Box(modifier = Modifier.padding(end  = 186.dp, bottom = 32.dp)) {
+                    Draw10Button(onClick = onDraw10Click)
+                }
             }
         }
     }
