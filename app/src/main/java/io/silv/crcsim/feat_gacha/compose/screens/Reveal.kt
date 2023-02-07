@@ -6,13 +6,13 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.MediaItem
 import io.silv.crcsim.R
-import io.silv.crcsim.data.pumpkinPieUrl
 import io.silv.crcsim.feat_gacha.CookieDraw
 import io.silv.crcsim.feat_gacha.compose.components.CoilGif
 import io.silv.crcsim.feat_gacha.compose.components.Player
@@ -86,9 +86,11 @@ fun RevealIdleScreen(
     ) {
 
         if (cookieDraw.full)
-        CoilGif(
-            modifier = Modifier.fillMaxSize(),
-            url = pumpkinPieUrl
-        )
+            CoilGif(
+                modifier = Modifier.fillMaxSize(),
+                url = cookieDraw.cookie.imageUrl
+            )
+        else
+            Text(text = cookieDraw.toString())
     }
 }
