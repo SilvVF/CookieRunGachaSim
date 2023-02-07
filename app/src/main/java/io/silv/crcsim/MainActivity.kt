@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import io.silv.crcsim.navigation.AnimatedNavigation
+import io.silv.crcsim.navigation.NavItem
 import io.silv.crcsim.navigation.Navigations
 import io.silv.crcsim.ui.theme.CrcSimTheme
 import org.koin.androidx.compose.koinViewModel
@@ -38,22 +39,33 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     var selectedItem by remember { mutableStateOf(0) }
-                    val items = listOf("Cookies", "Costumes", "Treasures")
-                    val icons = listOf(
-                        painterResource(id = R.drawable.cookies_selected),
-                        painterResource(id = R.drawable.cookies_unselected),
-                        painterResource(id = R.drawable.cookies_unselected)
+                    val items = listOf(
+                        NavItem(
+                            label = "Cookies",
+                            selectedIcon = painterResource(id = R.drawable.cookies_selected),
+                            unselectedIcon = painterResource(id = R.drawable.cookies_unselected),
+                        ),
+                        NavItem(
+                            label = "Artifacts",
+                            selectedIcon = painterResource(id = R.drawable.cookies_selected),
+                            unselectedIcon = painterResource(id = R.drawable.cookies_unselected),
+                        )
                     )
                     val navController = rememberAnimatedNavController()
 
                     Navigations(
                         selectedItem = selectedItem,
-                        navItems = items.zip(icons),
-                        onSelected = { selectedItem = it }
+                        navItems = items,
+                        onSelected = {
+                            if (it != selectedItem) {
+                                selectedItem = it
+                                navController.navigate(items[selectedItem].label)
+                            }
+                        }
                     ) {
                         AnimatedNavigation(
                             navController = navController,
-                            start = items[0]
+                            start = items[0].label,
                         )
                     }
                 }

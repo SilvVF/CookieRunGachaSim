@@ -25,10 +25,10 @@ fun NavGraphBuilder.gachaScreen(
         slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
     },
     popEnterTransition = {
-        slideIntoContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700))
+        slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
     },
     popExitTransition = {
-        slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700))
+        slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
 
     }
 ) { GachaNavHost() }
