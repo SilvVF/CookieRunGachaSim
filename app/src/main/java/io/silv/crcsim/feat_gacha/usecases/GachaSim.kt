@@ -16,23 +16,19 @@ class CookieGachaSim {
     private fun getCookie(rarity: Rarity): CookieDraw {
         val cookie =  allCookies().filterRarity(rarity)
             .ifEmpty { throw IllegalStateException("Cookie List Was Empty for rarity $rarity") }
-            .random(
-                random = Random(System.currentTimeMillis())
-            )
+            .random()
         return CookieDraw(cookie, true, 20)
     }
 
     private fun getSoulStones(rarity: Rarity): CookieDraw {
         val cookie = allCookies().filterRarity(rarity)
             .ifEmpty { throw IllegalStateException("Soulstone List Was Empty for rarity $rarity") }
-            .random(
-                random = Random(System.currentTimeMillis())
-            )
+            .random()
         return CookieDraw(cookie, false, Random.nextInt(3, 6))
     }
 
     private fun randomDraw(): CookieDraw {
-        return when (Random(seed = System.currentTimeMillis()).nextDouble(0.0, combinedRates)) {
+        return when (Random.nextDouble(0.0, combinedRates)) {
             in commonRange -> { getCookie(Rarity.Common) }
             in rareRange -> { getCookie(Rarity.Rare) }
             in epicRange -> { getCookie(Rarity.Epic) }
@@ -47,7 +43,7 @@ class CookieGachaSim {
     }
 
     private fun anyPityDraw(): CookieDraw {
-        return when (Random(seed = System.currentTimeMillis()).nextDouble(0.0, cookieRates.sum())) {
+        return when (Random.nextDouble(0.0, cookieRates.sum())) {
             in commonRange -> {  getCookie(Rarity.Common) }
             in rareRange -> { getCookie(Rarity.Rare) }
             in epicRange -> { getCookie(Rarity.Epic) }
