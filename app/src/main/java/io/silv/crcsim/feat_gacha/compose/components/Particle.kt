@@ -33,7 +33,6 @@ fun Particles(
             animationSpec = tween(
                 durationMillis = MAX_ANIMATION_DURATION.toInt() - 300,
                 easing = LinearEasing,
-                delayMillis = 300
             )
         ),
         exit = ExitTransition.None

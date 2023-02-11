@@ -68,4 +68,6 @@ fun NavController.toGachaDest(
         "reveal-idle/${gachaRoute.idx}"
     )
     else -> this.navigate(gachaRoute.route)
+}.also {
+    this.popBackStack()
 }

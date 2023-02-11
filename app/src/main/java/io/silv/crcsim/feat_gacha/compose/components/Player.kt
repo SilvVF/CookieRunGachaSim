@@ -58,17 +58,23 @@ fun Player(
             .also { player ->
                 scope.launch {
                     // Delay to stop the call to player.contentDuration returning C.unset
-                    delay(50)
-                    player.createMessage { _, _ ->
+                    delay(30)
+                    runCatching {
+                        player.createMessage { _, _ ->
+                            mediaEnd()
+                        }
+                            .setLooper(Looper.getMainLooper())
+                            .setPosition(
+                                /* mediaItemIndex = */0,
+                                /* positionMs = */player.contentDuration
+                            )
+                            .setDeleteAfterDelivery(true)
+                            .send()
+                    }.onFailure {
+                        // possible that is was called to early or media was to short
+                        // send end event so the screen doesn't get stuck.
                         mediaEnd()
                     }
-                        .setLooper(Looper.getMainLooper())
-                        .setPosition(
-                            /* mediaItemIndex= */0,
-                            /* positionMs= */player.contentDuration
-                        )
-                        .setDeleteAfterDelivery(true)
-                        .send()
                 }
             }
     }

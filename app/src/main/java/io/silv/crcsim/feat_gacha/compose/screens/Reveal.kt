@@ -3,15 +3,16 @@ package io.silv.crcsim.feat_gacha.compose.screens
 import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.media3.common.MediaItem
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import io.silv.crcsim.R
 import io.silv.crcsim.feat_gacha.CookieDraw
 import io.silv.crcsim.feat_gacha.compose.components.CoilGif
@@ -77,6 +78,8 @@ fun RevealIdleScreen(
     onNavigate: () -> Unit
 ) {
 
+    val ctx = LocalContext.current
+
     Surface(
         Modifier
             .fillMaxSize()
@@ -91,6 +94,14 @@ fun RevealIdleScreen(
                 url = cookieDraw.cookie.imageUrl
             )
         else
-            Text(text = cookieDraw.toString())
+            AsyncImage(
+                model = ImageRequest.Builder(ctx)
+                    .data(cookieDraw.cookie.soulstoneUrl)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "soulstone image",
+                modifier = Modifier.fillMaxWidth(0.1f).fillMaxHeight(0.1f),
+                contentScale = ContentScale.Crop
+            )
     }
 }
