@@ -1,5 +1,6 @@
 package io.silv.crcsim.feat_gacha.usecases
 
+import android.util.Log
 import io.silv.crcsim.data.allCookies
 import io.silv.crcsim.data.filterRarity
 import io.silv.crcsim.feat_gacha.CookieDraw
@@ -13,6 +14,21 @@ import kotlin.random.Random
 
 class CookieGachaSim {
 
+    init {
+        Log.d("CookieGachaSim", commonRange.toString())
+        Log.d("CookieGachaSim", rareRange.toString())
+        Log.d("CookieGachaSim", epicRange.toString())
+        Log.d("CookieGachaSim", superEpicRange.toString())
+        Log.d("CookieGachaSim", legendaryRange.toString())
+        Log.d("CookieGachaSim", commonStoneRange.toString())
+        Log.d("CookieGachaSim", rareStoneRange.toString())
+        Log.d("CookieGachaSim", epicStoneRange.toString())
+        Log.d("CookieGachaSim", superEpicStoneRange.toString())
+        Log.d("CookieGachaSim", legendaryStoneRange.toString())
+        Log.d("CookieGachaSim", cookieRates.sum().toString())
+        Log.d("CookieGachaSim", stoneRates.sum().toString())
+        Log.d("CookieGachaSim", combinedRates.toString())
+    }
     private fun getCookie(rarity: Rarity): CookieDraw {
         val cookie =  allCookies().filterRarity(rarity)
             .ifEmpty { throw IllegalStateException("Cookie List Was Empty for rarity $rarity") }
@@ -24,7 +40,7 @@ class CookieGachaSim {
         val cookie = allCookies().filterRarity(rarity)
             .ifEmpty { throw IllegalStateException("Soulstone List Was Empty for rarity $rarity") }
             .random()
-        return CookieDraw(cookie, false, Random.nextInt(3, 6))
+        return CookieDraw(cookie, false, Random.nextInt(1, 4))
     }
 
     private fun randomDraw(): CookieDraw {

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import io.silv.crcsim.R
 
 @Composable
@@ -34,14 +35,14 @@ fun CrystalStatusBar(
                     width = 2.dp,
                     color = Color.Black,
                     RoundedCornerShape(
-                        topEnd = 4.dp,
-                        bottomEnd = 4.dp
+                        topEnd = 8.dp,
+                        bottomEnd = 8.dp
                     )
                 )
                 .clip(
                     RoundedCornerShape(
-                        topEnd = 4.dp,
-                        bottomEnd = 4.dp
+                        topEnd = 6.dp,
+                        bottomEnd = 6.dp
                     )
                 )
                 .background(
@@ -50,7 +51,7 @@ fun CrystalStatusBar(
         ) {
             Text(
                 text = crystals.toString(),
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleSmall.copy(letterSpacing = 1.8.sp),
                 color = Color.White,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)

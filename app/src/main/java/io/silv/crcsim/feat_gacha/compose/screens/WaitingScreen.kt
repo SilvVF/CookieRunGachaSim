@@ -13,9 +13,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.silv.crcsim.R
-import io.silv.crcsim.feat_gacha.compose.components.CrystalStatusBar
-import io.silv.crcsim.feat_gacha.compose.components.Particles
+import io.silv.crcsim.feat_gacha.compose.components.*
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 @Composable
 fun WaitingScreen(
@@ -61,16 +61,44 @@ fun WaitingScreen(
                 emoji = ".",
                 visible = !visible
             )
-            CrystalStatusBar(
-                crystals = crystals,
-                imageWidth = 38f,
-                modifier = Modifier
-                    .padding(end = 40.dp)
+            Row(
+                Modifier
                     .align(Alignment.TopEnd)
-                    .height(40.dp)
-                    .fillMaxWidth(0.2f)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                MoneySpentStatusBar(
+                    money = (crystals * 0.0995f).roundToInt(),
+                    imageWidth = 38f,
+                    modifier = Modifier
+                        .padding(end = 32.dp)
+                        .height(40.dp)
+                        .fillMaxWidth(0.17f)
+                )
+                CrystalStatusBar(
+                    crystals = crystals,
+                    imageWidth = 38f,
+                    modifier = Modifier
+                        .padding(end = 32.dp)
+                        .height(40.dp)
+                        .fillMaxWidth(0.2f)
+                )
+            }
+            CrkInfoButtonCol(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(32.dp)
+                    .offset(y = (-80).dp),
+                onProbabilityClick = {},
+                onGachaHistoryClick = {}
             )
-            Box(Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.BottomEnd) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .padding(32.dp), contentAlignment = Alignment.BottomEnd) {
                 Draw1Button(onClick = onDraw1Click)
             }
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {

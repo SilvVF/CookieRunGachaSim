@@ -46,7 +46,7 @@ const val teaKnightUrl = "https://static.wikia.nocookie.net/cookierunkingdom/ima
 const val crunchyChipUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/5/58/Crunchy_chip_gacha_animation.gif/revision/latest/scale-to-width-down/250?cb=20220527174133"
 const val schwarzwalderUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/6/6a/Schwarzwalder_gacha_animation.gif/revision/latest/scale-to-width-down/250?cb=20221013030333"
 const val milkyWayUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/8/88/Milky_way_animation.gif/revision/latest/scale-to-width-down/250?cb=20230119031159"
-const val madeUrl = "https://i.redd.it/191oka40xjw71.gif"
+const val madeUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/3/34/Madeleinecookiegachaanimation.gif/revision/latest/scale-to-width-down/213?cb=20210606122726"
 const val milkUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/f/f7/Milkgachaanimation.gif/revision/latest/scale-to-width-down/250?cb=20210609181234"
 const val strawberryCrepeUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/0/04/Strawberrycrepegachaanimation.gif/revision/latest/scale-to-width-down/250?cb=20210609160135"
 const val moonRabbitUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/6/66/Moon_rabbit_cookie_anim.gif/revision/latest/scale-to-width-down/250?cb=20220323193128"

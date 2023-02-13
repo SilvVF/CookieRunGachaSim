@@ -23,13 +23,13 @@ fun NavGraphBuilder.gachaScreen(
         slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
     },
     exitTransition = {
-        slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
+        fadeOut(animationSpec = tween(700))
     },
     popEnterTransition = {
         slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
     },
     popExitTransition = {
-        slideOutOfContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
+        fadeOut(animationSpec = tween(700))
 
     }
 ) { GachaNavHost { inProgress -> gachaInProgress(inProgress)  } }
@@ -61,11 +61,11 @@ fun NavGraphBuilder.composableFadeAnim(
 fun NavController.toGachaDest(
     gachaRoute: GachaRoute
 ) = when(gachaRoute) {
-    is GachaRoute.Reveal -> this.navigate(
-        "reveal/${gachaRoute.idx}"
-    )
-    is GachaRoute.RevealIdle -> this.navigate(
-        "reveal-idle/${gachaRoute.idx}"
-    )
-    else -> this.navigate(gachaRoute.route)
-}
+        is GachaRoute.Reveal -> this.navigate(
+            "reveal/${gachaRoute.idx}"
+        )
+        is GachaRoute.RevealIdle -> this.navigate(
+            "reveal-idle/${gachaRoute.idx}"
+        )
+        else -> this.navigate(gachaRoute.route)
+    }

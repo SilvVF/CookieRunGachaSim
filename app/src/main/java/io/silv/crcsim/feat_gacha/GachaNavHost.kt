@@ -1,6 +1,5 @@
 package io.silv.crcsim.feat_gacha
 
-import android.net.Uri
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -13,18 +12,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.media3.common.MediaItem
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import io.silv.crcsim.R
 import io.silv.crcsim.feat_gacha.compose.GachaRoute
-import io.silv.crcsim.feat_gacha.compose.components.Player
 import io.silv.crcsim.feat_gacha.compose.screens.*
 import io.silv.crcsim.navigation.composableFadeAnim
-import io.silv.crcsim.navigation.gachaScreen
 import io.silv.crcsim.navigation.toGachaDest
 import org.koin.androidx.compose.koinViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -41,7 +35,6 @@ fun GachaNavHost(
 
 
     AnimatedNavHost(navController = navHostController, startDestination = GachaRoute.Waiting.route) {
-
 
         composableFadeAnim(
             GachaRoute.Waiting,
