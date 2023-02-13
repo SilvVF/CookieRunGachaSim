@@ -1,15 +1,19 @@
 package io.silv.crcsim.feat_gacha.compose.screens
 
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -88,20 +92,41 @@ fun RevealIdleScreen(
             }
     ) {
 
-        if (cookieDraw.full)
-            CoilGif(
-                modifier = Modifier.fillMaxSize(),
-                url = cookieDraw.cookie.imageUrl
-            )
-        else
-            AsyncImage(
-                model = ImageRequest.Builder(ctx)
-                    .data(cookieDraw.cookie.soulstoneUrl)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "soulstone image",
-                modifier = Modifier.fillMaxWidth(0.1f).fillMaxHeight(0.1f),
-                contentScale = ContentScale.Crop
-            )
+        if (cookieDraw.full) {
+            Box(Modifier.fillMaxSize()) {
+                AsyncImage(
+                    model = ImageRequest.Builder(ctx)
+                        .data(cookieDraw.cookie.gachaBgUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "gacha background",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+                CoilGif(
+                    modifier = Modifier.fillMaxSize(),
+                    url = cookieDraw.cookie.imageUrl
+                )
+            }
+        } else {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Image(
+                    painter = painterResource(id = R.drawable.soulsstone_common_bg),
+                    contentDescription ="soulstone background",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+                AsyncImage(
+                    model = ImageRequest.Builder(ctx)
+                        .data(cookieDraw.cookie.soulstoneUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "soulstone image",
+                    modifier = Modifier.size(180.dp),
+                    contentScale = ContentScale.Fit,
+                    alignment = Alignment.Center
+                )
+            }
+        }
     }
 }

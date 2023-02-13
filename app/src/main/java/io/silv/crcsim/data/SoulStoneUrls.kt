@@ -44,7 +44,7 @@ const val teaknightSSUrl = "https://static.wikia.nocookie.net/cookierunkingdom/i
 const val crunchychipSSUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/9/95/Soulstone_crunchychip.png/revision/latest?cb=20220527130854"
 const val schwarzwalderSSUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/f/fa/Soulstone_schwarzwalder.png/revision/latest?cb=20221013014332"
 const val milkywaySSUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/c/c3/Soulstone_milkyway.png/revision/latest?cb=20230119031300"
-const val madeSSUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/2/29/Soulstone_3.png/revision/latest?cb=20210515044354"
+const val madeSSUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/6/6f/Soulstone_madeleine.png/revision/latest/scale-to-width-down/157?cb=20210515001409"
 const val milkSSUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/e/e8/Soulstone_milk.png/revision/latest/scale-to-width-down/157?cb=20210515001415"
 const val strawberrycrepeSSUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/e/e9/Soulstone_strawberrycrepe.png/revision/latest?cb=20211121015648"
 const val moonRabbitSSurl = "https://static.wikia.nocookie.net/cookierunkingdom/images/7/74/Soulstone_moon_rabbit.png/revision/latest?cb=20211121013327"

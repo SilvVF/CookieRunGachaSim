@@ -3,17 +3,13 @@ package io.silv.crcsim.feat_gacha.compose.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -32,12 +28,11 @@ fun CrkInfoButton(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(100.dp))
-            .border(1.8.dp, Color.Black, RoundedCornerShape(100.dp))
-            .shadow(4.dp, RoundedCornerShape(90.dp))
+            .border(1.dp, Color.Black, RoundedCornerShape(100.dp))
             .background(Brush.verticalGradient(
                 listOf(
-                    Color.LightGray.copy(alpha = 0.4f),
-                    Color.DarkGray.copy(alpha = 0.8f)
+                    Color.LightGray.copy(alpha = 0.2f),
+                    Color.LightGray.copy(alpha = 0.1f)
                 )
             ))
             .clickable {
@@ -64,6 +59,72 @@ fun CrkInfoButtonPreview() {
                 fontFamily = CookieRun,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun CrkInfoButtonCol(
+    modifier: Modifier = Modifier,
+    onProbabilityClick: () -> Unit,
+    onGachaHistoryClick: () -> Unit
+) {
+
+    Column(
+        modifier = modifier
+    ) {
+        CrkInfoButton(
+            modifier = Modifier.width(140.dp),
+            onClick = { onProbabilityClick() }
+        ) {
+            Text(
+                text = "Probabilities",
+                fontFamily = CookieRun,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 14.sp,
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .offset(
+                        x = (-1).dp,
+                        y = (1).dp
+                    )
+            )
+            Text(
+                text = "Probabilities",
+                fontFamily = CookieRun,
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = Color.White,
+                modifier = Modifier.padding(4.dp)
+            )
+        }
+        Spacer(Modifier.height(12.dp))
+        CrkInfoButton(
+            modifier = Modifier.width(140.dp),
+            onClick = { onGachaHistoryClick() }
+        ) {
+            Text(
+                text = "Gacha History",
+                fontFamily = CookieRun,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.Black,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .padding(4.dp)
+                    .offset(
+                        x = (-1).dp,
+                        y = (1).dp
+                    )
+            )
+            Text(
+                text = "Gacha History",
+                fontFamily = CookieRun,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(4.dp)
             )
         }
     }

@@ -6,21 +6,16 @@ import Draw1Button
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import io.silv.crcsim.R
-import io.silv.crcsim.feat_gacha.compose.components.CrkInfoButton
-import io.silv.crcsim.feat_gacha.compose.components.CrystalStatusBar
-import io.silv.crcsim.feat_gacha.compose.components.Particles
-import io.silv.crcsim.ui.theme.CookieRun
+import io.silv.crcsim.feat_gacha.compose.components.*
 import kotlinx.coroutines.delay
+import kotlin.math.roundToInt
 
 @Composable
 fun WaitingScreen(
@@ -66,42 +61,40 @@ fun WaitingScreen(
                 emoji = ".",
                 visible = !visible
             )
-            CrystalStatusBar(
-                crystals = crystals,
-                imageWidth = 38f,
-                modifier = Modifier
-                    .padding(end = 40.dp)
+            Row(
+                Modifier
                     .align(Alignment.TopEnd)
-                    .height(40.dp)
-                    .fillMaxWidth(0.2f)
-            )
-            Column(Modifier.align(Alignment.CenterEnd).padding(16.dp)) {
-                CrkInfoButton(
-                    modifier = Modifier.width(140.dp),
-                    onClick = { /*TODO*/ }
-                ) {
-                    Text(
-                        text = "probabilities",
-                        fontFamily = CookieRun,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(4.dp)
-                    )
-                }
-                Spacer(Modifier.height(12.dp))
-                CrkInfoButton(
-                    modifier = Modifier.width(140.dp),
-                    onClick = { /*TODO*/ }
-                ) {
-                    Text(
-                        text = "gacha history",
-                        fontFamily = CookieRun,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(4.dp)
-                    )
-                }
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                MoneySpentStatusBar(
+                    money = (crystals * 0.0995f).roundToInt(),
+                    imageWidth = 38f,
+                    modifier = Modifier
+                        .padding(end = 32.dp)
+                        .height(40.dp)
+                        .fillMaxWidth(0.17f)
+                )
+                CrystalStatusBar(
+                    crystals = crystals,
+                    imageWidth = 38f,
+                    modifier = Modifier
+                        .padding(end = 32.dp)
+                        .height(40.dp)
+                        .fillMaxWidth(0.2f)
+                )
             }
+            CrkInfoButtonCol(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(32.dp)
+                    .offset(y = (-80).dp),
+                onProbabilityClick = {},
+                onGachaHistoryClick = {}
+            )
             Box(
                 Modifier
                     .fillMaxSize()

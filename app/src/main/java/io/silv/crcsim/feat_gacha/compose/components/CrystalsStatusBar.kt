@@ -35,8 +35,8 @@ fun CrystalStatusBar(
                     width = 2.dp,
                     color = Color.Black,
                     RoundedCornerShape(
-                        topEnd = 4.dp,
-                        bottomEnd = 4.dp
+                        topEnd = 8.dp,
+                        bottomEnd = 8.dp
                     )
                 )
                 .clip(
