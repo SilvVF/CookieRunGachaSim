@@ -42,7 +42,7 @@ fun StartScreen(
                     Uri.parse(
                         "android.resource://" +
                                 ctx.packageName + "/" +
-                                R.raw.intro_single_epic
+                                R.raw.cookie_gacha_intro_anim
                     )
                 )
             },

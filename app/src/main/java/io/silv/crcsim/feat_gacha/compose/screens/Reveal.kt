@@ -37,11 +37,11 @@ fun RevealScreen(
                "android.resource://" +
                        ctx.packageName + "/" +
                        when(rarity) {
-                           Rarity.Common -> R.raw.common_oven
-                           Rarity.Rare -> R.raw.rare_oven
-                           Rarity.Epic -> R.raw.epic_oven
-                           Rarity.Legendary -> R.raw.epic_oven
-                           Rarity.Special -> R.raw.epic_oven
+                           Rarity.Common -> R.raw.common_cookie_anim
+                           Rarity.Rare -> R.raw.rare_cookie_anim
+                           Rarity.Epic, Rarity.Special, Rarity.Legendary
+                           -> R.raw.epic_cookie_anim
+
                        }
            )
        )
@@ -51,9 +51,10 @@ fun RevealScreen(
             "android.resource://" +
                     ctx.packageName + "/" +
                     when(rarity) {
-                        Rarity.Common -> R.raw.common_soulstone_oven
-                        Rarity.Rare -> R.raw.soulstone_oven_rare
-                        Rarity.Epic, Rarity.Legendary, Rarity.Special -> R.raw.soulstone_oven_epic
+                        Rarity.Common -> R.raw.common_soulstone_anim
+                        Rarity.Rare -> R.raw.rare_soulstone_anim
+                        Rarity.Epic, Rarity.Legendary, Rarity.Special
+                        -> R.raw.epic_soulstone_anim
                     }
         )
     )
@@ -79,6 +80,7 @@ fun RevealScreen(
 @Composable
 fun RevealIdleScreen(
     cookieDraw: CookieDraw,
+    imageRequest: ImageRequest,
     onNavigate: () -> Unit
 ) {
 
@@ -95,10 +97,7 @@ fun RevealIdleScreen(
         if (cookieDraw.full) {
             Box(Modifier.fillMaxSize()) {
                 AsyncImage(
-                    model = ImageRequest.Builder(ctx)
-                        .data(cookieDraw.cookie.gachaBgUrl)
-                        .crossfade(true)
-                        .build(),
+                    model = imageRequest,
                     contentDescription = "gacha background",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
@@ -111,16 +110,18 @@ fun RevealIdleScreen(
         } else {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Image(
-                    painter = painterResource(id = R.drawable.soulsstone_common_bg),
+                    painter = painterResource(
+                    when (cookieDraw.cookie.rarity) {
+                        Rarity.Common -> R.drawable.commonbg
+                        Rarity.Rare -> R.drawable.rarebg
+                        else -> R.drawable.epicbg
+                    }),
                     contentDescription ="soulstone background",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
                 AsyncImage(
-                    model = ImageRequest.Builder(ctx)
-                        .data(cookieDraw.cookie.soulstoneUrl)
-                        .crossfade(true)
-                        .build(),
+                    model = imageRequest,
                     contentDescription = "soulstone image",
                     modifier = Modifier.size(180.dp),
                     contentScale = ContentScale.Fit,
