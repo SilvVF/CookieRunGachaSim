@@ -12,6 +12,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.syntax.simple.repeatOnSubscription
 import org.orbitmvi.orbit.viewmodel.container
+
 class GachaViewModel(
     private val drawCookies: DrawCookiesUseCase,
     private val userDataRepo: UserDataRepo
@@ -49,7 +50,7 @@ class GachaViewModel(
 
     fun handleDraw10Click() = viewModelScope.launch {
         intent {
-            val pull = drawCookies(pity = state.pity, 10)
+            val pull = drawCookies(state.pity, 10)
             reduce {
                 state.copy(
                     pull = pull
@@ -60,7 +61,7 @@ class GachaViewModel(
 
     fun handleDraw1Click() = viewModelScope.launch {
         intent {
-            val pull = drawCookies(pity = state.pity, 1)
+            val pull = drawCookies(state.pity, 1)
             reduce {
                 state.copy(
                     pull = pull
