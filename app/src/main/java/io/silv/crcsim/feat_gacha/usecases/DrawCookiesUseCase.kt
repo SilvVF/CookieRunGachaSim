@@ -7,30 +7,38 @@ import io.silv.crcsim.feat_gacha.Pity
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
-class DrawCookiesUseCase(
-    private val cookieDao: CookieDao,
-    private val gacha: CookieGachaSim,
-    private val userDataStore: UserDataStore,
-) {
+fun interface DrawCookiesUseCase : suspend (Pity, Int) -> CookieDrawResult
 
-    suspend operator fun invoke(pity: Pity, amount: Int): CookieDrawResult {
-        return gacha.drawCookies(pity, amount)
-            .also { cookieResList ->
-                coroutineScope {
-                    launch {
-                        userDataStore.addCrystals(amount * 300)
-                        userDataStore.editPity(cookieResList.newPity)
-                    }
-                    cookieResList.result.forEach { cookieRes ->
-                        cookieDao.getCookieByName(cookieRes.cookie.name)?.let { cookieEntity ->
-                            cookieDao.updateCookie(
-                                cookieEntity.copy(
-                                    soulstoneCount = cookieEntity.soulstoneCount + cookieRes.count
-                                )
-                            )
-                        }
+suspend fun drawCookiesUseCaseImpl(
+    cookieDao: CookieDao,
+    gacha: CookieGachaSim,
+    userDataStore: UserDataStore,
+    pity: Pity,
+    amount: Int,
+): CookieDrawResult {
+    return gacha.drawCookies(pity, amount)
+        .also { cookieDrawResult ->
+            coroutineScope {
+                launch {
+                    userDataStore.addCrystals(amount * 300)
+                    userDataStore.editPity(cookieDrawResult.newPity)
+                }
+                launch {
+                    updateDb(cookieDao, cookieDrawResult)
                 }
             }
+        }
+}
+
+private suspend fun updateDb(cookieDao: CookieDao, cookieDrawResult: CookieDrawResult) {
+    cookieDrawResult.result.forEach { draw ->
+        with(cookieDao) {
+             getCookieByName(draw.cookie.name)?.let { cookieEntity ->
+             updateCookie(
+                 cookieEntity.copy(
+                     soulstoneCount = cookieEntity.soulstoneCount + draw.count
+                 )
+             )}
         }
     }
 }

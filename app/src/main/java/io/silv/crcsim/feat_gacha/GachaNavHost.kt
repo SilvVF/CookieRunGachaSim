@@ -1,19 +1,12 @@
 package io.silv.crcsim.feat_gacha
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import coil.imageLoader
+import coil.request.ImageRequest
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import io.silv.crcsim.feat_gacha.compose.GachaRoute
@@ -32,6 +25,48 @@ fun GachaNavHost(
 
     val navHostController = rememberAnimatedNavController()
     val state by viewModel.collectAsState()
+    val ctx = LocalContext.current
+
+    val currentImageRequestList by remember(state.pull) {
+        derivedStateOf {
+            state.pull.result.map {
+                ImageRequest.Builder(ctx)
+                    .data(
+                        if (it.full) {
+                           it.cookie.gachaBgUrl
+                        } else it.cookie.soulstoneUrl
+                    )
+                    .crossfade(true)
+                    .build()
+            }
+        }
+    }
+
+
+    LaunchedEffect(state.pull) {
+
+        fun createImageRequest(url: String): ImageRequest =
+            ImageRequest.Builder(ctx)
+                .data(url)
+                .build()
+
+        val requestLists = state.pull.result.map {
+            listOf(
+                if (it.full) {
+                    createImageRequest(it.cookie.gachaBgUrl)
+                    createImageRequest(it.cookie.imageUrl)
+                } else {
+                    createImageRequest(it.cookie.soulstoneUrl)
+                }
+            )
+        }
+        requestLists.forEach { list ->
+            list.forEach { request ->
+                ctx.imageLoader.enqueue(request)
+            }
+        }
+    }
+
 
 
     AnimatedNavHost(navController = navHostController, startDestination = GachaRoute.Waiting.route) {
@@ -123,7 +158,8 @@ fun GachaNavHost(
                         else
                             GachaRoute.End
                     )
-                }
+                },
+                imageRequest = currentImageRequestList[idx]
             )
         }
 
@@ -131,18 +167,9 @@ fun GachaNavHost(
             route = GachaRoute.End,
             navController = navHostController,
         ) { navController, _ ->
-            Surface(
-                Modifier
-                    .fillMaxSize()
-                    .clickable(remember { MutableInteractionSource() }, null) {
-                        navController.toGachaDest(GachaRoute.Waiting)
-                    }
-            ) {
-                Column {
-                    for (cookie in state.pull.result) {
-                        Text(text = cookie.toString())
-                    }
-                }
+
+            EndScreen(pull = state.pull, currentImageRequestList) {
+                navController.toGachaDest(GachaRoute.Waiting)
             }
         }
     }

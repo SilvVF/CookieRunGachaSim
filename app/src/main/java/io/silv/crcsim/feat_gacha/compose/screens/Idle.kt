@@ -38,7 +38,7 @@ fun IdleScreen(
                 Uri.parse(
                     "android.resource://" +
                             ctx.packageName + "/" +
-                            R.raw.use_idle_start
+                            R.raw.idle_use_cookie_cutter
                 )
             ),
             contentPosition = { currentMillis = it },
@@ -66,7 +66,7 @@ fun IdleEndScreen(
             Uri.parse(
                 "android.resource://" +
                         ctx.packageName + "/" +
-                        R.raw.cookie_cutter_use_end
+                        R.raw.cookie_cutter_use_anim
             )
         ),
         contentPosition = {currentMillis = it}
