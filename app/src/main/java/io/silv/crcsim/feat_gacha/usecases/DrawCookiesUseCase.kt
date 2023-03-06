@@ -2,12 +2,10 @@ package io.silv.crcsim.feat_gacha.usecases
 
 import io.silv.crcsim.data.datastore.UserDataStore
 import io.silv.crcsim.data.room.CookieDao
-import io.silv.crcsim.feat_gacha.CookieDraw
 import io.silv.crcsim.feat_gacha.CookieDrawResult
 import io.silv.crcsim.feat_gacha.Pity
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 
 fun interface DrawCookiesUseCase : suspend (Pity, Int) -> CookieDrawResult
 
@@ -26,21 +24,21 @@ suspend fun drawCookiesUseCaseImpl(
                     userDataStore.editPity(cookieDrawResult.newPity)
                 }
                 launch {
-                    updateCrystalCount(cookieDao, cookieDrawResult)
+                    updateDb(cookieDao, cookieDrawResult)
                 }
             }
         }
 }
 
-private suspend fun updateCrystalCount(cookieDao: CookieDao, cookieDrawResult: CookieDrawResult) {
+private suspend fun updateDb(cookieDao: CookieDao, cookieDrawResult: CookieDrawResult) {
     cookieDrawResult.result.forEach { draw ->
         with(cookieDao) {
-            getCookieByName(draw.cookie.name)?.let { cookieEntity ->
-            updateCookie(
-                cookieEntity.copy(
-                    soulstoneCount = cookieEntity.soulstoneCount + draw.count
-                )
-            )}
+             getCookieByName(draw.cookie.name)?.let { cookieEntity ->
+             updateCookie(
+                 cookieEntity.copy(
+                     soulstoneCount = cookieEntity.soulstoneCount + draw.count
+                 )
+             )}
         }
     }
 }

@@ -1,14 +1,7 @@
 package io.silv.crcsim.feat_gacha
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -174,18 +167,9 @@ fun GachaNavHost(
             route = GachaRoute.End,
             navController = navHostController,
         ) { navController, _ ->
-            Surface(
-                Modifier
-                    .fillMaxSize()
-                    .clickable(remember { MutableInteractionSource() }, null) {
-                        navController.toGachaDest(GachaRoute.Waiting)
-                    }
-            ) {
-                Column {
-                    for (cookie in state.pull.result) {
-                        Text(text = cookie.toString())
-                    }
-                }
+
+            EndScreen(pull = state.pull, currentImageRequestList) {
+                navController.toGachaDest(GachaRoute.Waiting)
             }
         }
     }
