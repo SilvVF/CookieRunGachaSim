@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import io.silv.crcsim.feat_gacha.Pity
+import io.silv.crcsim.feat_cookie_gacha.Pity
 import kotlinx.coroutines.flow.Flow
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_data")

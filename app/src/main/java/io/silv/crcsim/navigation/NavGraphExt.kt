@@ -8,8 +8,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
-import io.silv.crcsim.feat_gacha.GachaNavHost
-import io.silv.crcsim.feat_gacha.compose.GachaRoute
+import io.silv.crcsim.feat_artifact_gacha.compose.ArtifactRoute
+import io.silv.crcsim.feat_cookie_gacha.compose.GachaNavHost
+import io.silv.crcsim.feat_cookie_gacha.compose.GachaRoute
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -36,12 +37,12 @@ fun NavGraphBuilder.gachaScreen(
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.composableFadeAnim(
-    route: GachaRoute,
+    route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     navController: NavController,
     content: @Composable (navController: NavController, backStackEntry: NavBackStackEntry) -> Unit
 ) = this.composable(
-    route = route.route,
+    route = route,
     arguments = arguments,
     enterTransition = {
         fadeIn()
@@ -69,3 +70,15 @@ fun NavController.toGachaDest(
         )
         else -> this.navigate(gachaRoute.route)
     }
+
+fun NavController.toArtifactDest(
+    artifactRoute: ArtifactRoute
+) = when(artifactRoute) {
+    is ArtifactRoute.Reveal -> this.navigate(
+        "reveal/${artifactRoute.idx}"
+    )
+    is ArtifactRoute.RevealIdle -> this.navigate(
+        "reveal-idle/${artifactRoute.idx}"
+    )
+    else -> this.navigate(artifactRoute.route)
+}

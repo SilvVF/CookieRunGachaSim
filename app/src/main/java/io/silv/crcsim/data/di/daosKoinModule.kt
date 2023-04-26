@@ -9,4 +9,5 @@ val daosKoinModule = module {
 
     single { get<CrDatabase>().cookieDao() }
     single { get<CrDatabase>().artifactDao() }
+    single { get<CrDatabase>().pullHistDao() }
 }

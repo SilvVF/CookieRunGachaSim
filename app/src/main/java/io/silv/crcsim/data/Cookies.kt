@@ -112,13 +112,3 @@ enum class Cookie(
     Blackpearl("Black_Pearl", Rarity.Legendary, blackPearlUrl, blackpearlSSUrl, blackPearlUrlBG),
     Moonlight("Moonlight", Rarity.Legendary, moonlightUrl, moonlightSSUrl, moonlightUrlBG),
 }
-
-fun allCookies() = Cookie.values().toList()
-
-
-fun List<Cookie>.filterRarity(rarity: Rarity) = this.filter {
-    it.rarity == rarity
-}.ifEmpty { listOf(Cookie.GingerBrave) }
-
-
-fun getAllCookieNames() = Cookie.values().map { it.id }

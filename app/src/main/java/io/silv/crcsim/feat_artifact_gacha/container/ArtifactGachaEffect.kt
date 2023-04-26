@@ -1,0 +1,3 @@
+package io.silv.crcsim.feat_artifact_gacha.container
+
+sealed interface ArtifactGachaEffect
