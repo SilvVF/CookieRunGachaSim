@@ -1,5 +1,6 @@
 package io.silv.crcsim.feat_ui_inventory.usecase
 
+import io.silv.crcsim.data.Cookie
 import io.silv.crcsim.data.Treasure
 import io.silv.crcsim.data.room.dao.CookieDao
 import io.silv.crcsim.data.room.dao.TreasureDao
@@ -14,11 +15,13 @@ fun inventoryCookieFlowImpl(
     cookieDao: CookieDao,
 ): Flow<List<InventoryCookie>> {
     return cookieDao.allCookiesFlow().map { list: List<CookieEntity> ->
-        list.map { cookieEntity ->
-            InventoryCookie(
-                cookie = cookieEntity.name,
-                count = cookieEntity.soulstoneCount
-            )
+        list.mapNotNull { cookieEntity ->
+            runCatching {
+                InventoryCookie(
+                    cookie = Cookie.valueOf(cookieEntity.name.replace("_", "")),
+                    count = cookieEntity.soulstoneCount
+                )
+            }.getOrNull()
         }
     }
 }
@@ -27,21 +30,23 @@ fun inventoryTreasureFlowImpl(
     treasureDao: TreasureDao
 ): Flow<List<InventoryTreasure>> {
     return treasureDao.allTreasuresFlow().map { list ->
-        list.map { treasure ->
-            InventoryTreasure(
-                artifact = Treasure.valueOf(treasure.name),
-                count = treasure.count
-            )
+        list.mapNotNull { treasure ->
+            runCatching {
+                InventoryTreasure(
+                    treasure = Treasure.valueOf(treasure.name.replace("_", "")),
+                    count = treasure.count
+                )
+            }.getOrNull()
         }
     }
 }
 
 data class InventoryTreasure(
-    val artifact: Treasure,
+    val treasure: Treasure,
     val count: Int
 )
 
 data class InventoryCookie (
-    val cookie: String,
+    val cookie: Cookie,
     val count: Int
 )

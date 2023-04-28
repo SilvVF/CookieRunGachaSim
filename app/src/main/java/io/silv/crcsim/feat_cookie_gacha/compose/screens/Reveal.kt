@@ -14,12 +14,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.media3.common.MediaItem
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import io.silv.crcsim.R
 import io.silv.crcsim.feat_cookie_gacha.CookieDraw
 import io.silv.crcsim.feat_cookie_gacha.compose.components.CoilGif
+import io.silv.crcsim.feat_cookie_gacha.compose.components.OverlappingText
 import io.silv.crcsim.feat_cookie_gacha.compose.components.Player
 import io.silv.crcsim.models.Rarity
 
@@ -90,52 +92,68 @@ fun RevealIdleScreen(
                 onNavigate()
             }
     ) {
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        if (cookieDraw.full) {
+        Box(modifier = Modifier.fillMaxSize()) {
+
+            if (cookieDraw.full) {
                 AsyncImage(
                     model = imageRequest,
                     contentDescription = "gacha background",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
-                CoilGif(
-                    modifier = Modifier.fillMaxSize(),
-                    url = cookieDraw.cookie.imageUrl
-                )
-        } else {
+            } else {
                 Image(
                     painter = painterResource(
-                    when (cookieDraw.cookie.rarity) {
-                        Rarity.Common -> R.drawable.commonbg
-                        Rarity.Rare -> R.drawable.rarebg
-                        else -> R.drawable.epicbg
-                    }),
-                    contentDescription ="soulstone background",
+                        when (cookieDraw.cookie.rarity) {
+                            Rarity.Common -> R.drawable.commonbg
+                            Rarity.Rare -> R.drawable.rarebg
+                            else -> R.drawable.epicbg
+                        }
+                    ),
+                    contentDescription = "soulstone background",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
-                AsyncImage(
-                    model = imageRequest ,
-                    contentDescription = "soulstone image",
-                    modifier = Modifier.size(180.dp),
-                    contentScale = ContentScale.Fit,
-                    alignment = Alignment.Center
+            }
+
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                OverlappingText(
+                    text = "${cookieDraw.cookie.id.replace("_", " ")} x${cookieDraw.count}",
+                    fontSize = 32f,
+                )
+                if (cookieDraw.full) {
+                    CoilGif(
+                        modifier = Modifier.fillMaxSize(),
+                        url = cookieDraw.cookie.imageUrl
+                    )
+                }else {
+                    AsyncImage(
+                        model = imageRequest,
+                        contentDescription = "soulstone image",
+                        modifier = Modifier.size(180.dp),
+                        contentScale = ContentScale.Fit,
+                        alignment = Alignment.Center
+                    )
+                }
+                CookieRarityTag(
+                    modifier = Modifier
+                        .fillMaxWidth(0.7f)
+                        .fillMaxHeight(0.3f)
+                        .padding(bottom = 12.dp),
+                    rarity = cookieDraw.cookie.rarity
                 )
             }
-            CookieRarityTag(
-                modifier = Modifier.align(Alignment.BottomCenter)
-                    .fillMaxWidth(0.6f)
-                    .fillMaxHeight(0.12f)
-                    .padding(bottom = 12.dp),
-                rarity = cookieDraw.cookie.rarity
-            )
         }
     }
 }
 
 @Composable
 fun CookieRarityTag(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     rarity: Rarity
 ) {
     Image(

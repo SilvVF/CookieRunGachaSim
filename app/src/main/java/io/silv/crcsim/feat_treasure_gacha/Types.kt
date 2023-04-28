@@ -10,7 +10,8 @@ data class TreasureDrawResult(
 
 data class ArtifactGachaState(
     val treasureDrawResult: TreasureDrawResult = TreasureDrawResult(emptyList(), LocalDateTime.now()),
-    val crystals: Int = 0
+    val crystals: Int = 0,
+    val currentTreasureIdx: Int = 0
 )
 
 sealed interface ArtifactGachaEffect

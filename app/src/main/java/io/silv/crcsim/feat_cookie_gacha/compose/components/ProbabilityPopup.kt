@@ -117,6 +117,77 @@ fun ProbabilityPopup(
     }
 }
 
+@OptIn(ExperimentalTextApi::class)
+@Composable
+fun TreasureProbabilityPopup(
+    show: Boolean,
+    onDismissRequest: () -> Unit
+) {
+    if (!show) {
+        return
+    }
+    Popup(
+        alignment = Alignment.Center,
+        onDismissRequest = {
+            onDismissRequest()
+        },
+    ) {
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .fillMaxHeight(0.4f)
+                .applyCrPopupBg(),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            val textStyle = LocalTextStyle.current
+            OverlappingText(
+                text = "Treasure Gacha Probabilities",
+                fontSize = 32f,
+                modifier = Modifier
+            )
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.8f)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(ProbUnderTextColor),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                    Text(
+                        text = "Super + Epic",
+                        style = textStyle.copy(
+                            brush = Brush.linearGradient(
+                                colors = listOf(SuperEpicColor, EpicColor)
+                            )
+                        )
+                    )
+                    Text(text = "12.000%", color = Color.White)
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                    Text(
+                        text = "Rare",
+                        color = RareColor
+                    )
+                    Text("30.000%", color = Color.White)
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+                    Text(
+                        text = "common",
+                        color = CommonColor
+                    )
+                    Text("58.000%", color = Color.White)
+                }
+            }
+        }
+    }
+}
+
 fun Modifier.applyCrPopupBg() = this
     .clip(
         RoundedCornerShape(32.dp)

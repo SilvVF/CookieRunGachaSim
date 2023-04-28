@@ -6,7 +6,7 @@ import io.silv.crcsim.feat_cookie_gacha.GachaEffect
 import io.silv.crcsim.feat_cookie_gacha.GachaState
 import io.silv.crcsim.feat_cookie_gacha.HistoryFilter
 import io.silv.crcsim.feat_cookie_gacha.domain.DrawCookiesUseCase
-import io.silv.crcsim.feat_cookie_gacha.domain.FetchArtifactHistoryUseCase
+import io.silv.crcsim.feat_cookie_gacha.domain.FetchTreasureHistory
 import io.silv.crcsim.feat_cookie_gacha.domain.FetchCookieHistoryUseCase
 import io.silv.crcsim.feat_cookie_gacha.domain.FetchHistoryUseCase
 import io.silv.crcsim.feat_cookie_gacha.domain.UserDataRepo
@@ -23,7 +23,7 @@ import org.orbitmvi.orbit.viewmodel.container
 class CookieGachaViewModel(
     private val drawCookies: DrawCookiesUseCase,
     fetchCookieHistory: FetchCookieHistoryUseCase,
-    fetchArtifactHistory: FetchArtifactHistoryUseCase,
+    fetchArtifactHistory: FetchTreasureHistory,
     fetchHistory: FetchHistoryUseCase,
     private val userDataRepo: UserDataRepo
 ): ViewModel(), ContainerHost<GachaState, GachaEffect> {
@@ -48,7 +48,7 @@ class CookieGachaViewModel(
     ) { cookieHistory, allHistory, artifactHistory, filter ->
         when(filter) {
             HistoryFilter.Cookie -> cookieHistory
-            is HistoryFilter.Artifact -> artifactHistory
+            is HistoryFilter.Treasure -> artifactHistory
             else -> allHistory
         }
     }

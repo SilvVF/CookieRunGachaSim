@@ -21,6 +21,7 @@ import io.silv.crcsim.navigation.AnimatedNavigation
 import io.silv.crcsim.navigation.NavItem
 import io.silv.crcsim.navigation.CrkNavRail
 import io.silv.crcsim.ui.theme.CrcSimTheme
+import io.silv.crcsim.ui.theme.DarkBlueNavRail
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
@@ -58,8 +59,8 @@ class MainActivity : ComponentActivity() {
                         ),
                         NavItem(
                             label = "Inventory",
-                            selectedIcon = painterResource(id = R.drawable.cookies_selected),
-                            unselectedIcon = painterResource(id = R.drawable.cookies_unselected),
+                            selectedIcon = painterResource(id = R.drawable.inventory_icon_selected),
+                            unselectedIcon = painterResource(id = R.drawable.inventory_icon_unselected),
                         )
                     )
                     val navController = rememberAnimatedNavController()
@@ -80,11 +81,13 @@ class MainActivity : ComponentActivity() {
                         },
                         navRailVisible = navRailVisible
                     ) {
-                        AnimatedNavigation(
-                            navController = navController,
-                            start = items[0].label,
-                        ) { visible ->
-                            navRailVisible = visible
+                        Surface(color = DarkBlueNavRail) {
+                            AnimatedNavigation(
+                                navController = navController,
+                                start = items[0].label,
+                            ) { visible ->
+                                navRailVisible = visible
+                            }
                         }
                     }
                 }

@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import io.silv.crcsim.R
 import io.silv.crcsim.feat_cookie_gacha.compose.GachaRoute
@@ -55,7 +57,7 @@ fun StartScreen(
                 derivedStateOf { currentMillis.toString() }.value
             }
         )
-        Button(onClick = { onNavigate(GachaRoute.End) }, Modifier.align(Alignment.TopEnd)) {
+        Button(onClick = { onNavigate(GachaRoute.End) }, Modifier.align(Alignment.TopEnd).padding(8.dp)) {
             Text(text = "Skip")
         }
     }
