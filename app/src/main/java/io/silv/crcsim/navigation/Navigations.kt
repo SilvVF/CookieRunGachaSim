@@ -5,7 +5,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +22,7 @@ data class NavItem(
 )
 
 @Composable
-fun Navigations(
+fun CrkNavRail(
     selectedItem: Int,
     navItems: List<NavItem>,
     navRailVisible: Boolean = true,

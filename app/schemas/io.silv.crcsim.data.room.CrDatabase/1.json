@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0c78ec51f9de7c0a8364b7c7e658b34d",
+    "identityHash": "ec41b5638c51d30fc309e68f48a37495",
     "entities": [
       {
-        "tableName": "CookieEntity",
+        "tableName": "cookie",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `soulstone_count` INTEGER NOT NULL, PRIMARY KEY(`name`))",
         "fields": [
           {
@@ -31,8 +31,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "ArtifactEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `soulstone_count` INTEGER NOT NULL, PRIMARY KEY(`name`))",
+        "tableName": "treasure",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `count` INTEGER NOT NULL, PRIMARY KEY(`name`))",
         "fields": [
           {
             "fieldPath": "name",
@@ -41,8 +41,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "soulstoneCount",
-            "columnName": "soulstone_count",
+            "fieldPath": "count",
+            "columnName": "count",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -55,12 +55,50 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "pull_hist",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type` TEXT NOT NULL, `items` TEXT NOT NULL, `amounts` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "items",
+            "columnName": "items",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amounts",
+            "columnName": "amounts",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c78ec51f9de7c0a8364b7c7e658b34d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ec41b5638c51d30fc309e68f48a37495')"
     ]
   }
 }
