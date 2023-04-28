@@ -1,6 +1,5 @@
 package io.silv.crcsim.data.room.entity
 
-import androidx.media3.common.FileTypes.Type
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,7 +10,7 @@ data class PullHistEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
     /**
-     * type string either "artifact" or "cookie"
+     * type string either "treasure" or "cookie"
      */
     @ColumnInfo(name = "type")
     val type: String,
@@ -27,7 +26,12 @@ data class PullHistEntity(
      */
     @ColumnInfo(name = "amounts")
     val amounts: List<Int>,
-)
+) {
+    companion object {
+        const val treasureType = "treasure"
+        const val cookieType = "cookie"
+    }
+}
 
 class PullHistConverters {
 

@@ -8,7 +8,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import com.google.accompanist.navigation.animation.composable
-import io.silv.crcsim.feat_artifact_gacha.compose.ArtifactRoute
+import io.silv.crcsim.feat_treasure_gacha.compose.TreasureRoute
 import io.silv.crcsim.feat_cookie_gacha.compose.GachaNavHost
 import io.silv.crcsim.feat_cookie_gacha.compose.GachaRoute
 
@@ -34,6 +34,30 @@ fun NavGraphBuilder.gachaScreen(
 
     }
 ) { GachaNavHost { inProgress -> gachaInProgress(inProgress)  } }
+
+@OptIn(ExperimentalAnimationApi::class)
+fun NavGraphBuilder.slideInFadeOutComposable(
+    route: String,
+    content: @Composable () -> Unit
+) {
+    composable(route,
+        enterTransition = {
+            slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(700))
+        },
+        popEnterTransition = {
+            slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
+        },
+        popExitTransition = {
+            fadeOut(animationSpec = tween(700))
+
+        }
+    ) {
+        content()
+    }
+}
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.composableFadeAnim(
@@ -72,12 +96,12 @@ fun NavController.toGachaDest(
     }
 
 fun NavController.toArtifactDest(
-    artifactRoute: ArtifactRoute
+    artifactRoute: TreasureRoute
 ) = when(artifactRoute) {
-    is ArtifactRoute.Reveal -> this.navigate(
+    is TreasureRoute.Reveal -> this.navigate(
         "reveal/${artifactRoute.idx}"
     )
-    is ArtifactRoute.RevealIdle -> this.navigate(
+    is TreasureRoute.RevealIdle -> this.navigate(
         "reveal-idle/${artifactRoute.idx}"
     )
     else -> this.navigate(artifactRoute.route)

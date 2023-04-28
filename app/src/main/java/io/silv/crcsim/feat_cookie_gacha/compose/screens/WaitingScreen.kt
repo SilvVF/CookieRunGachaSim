@@ -13,8 +13,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import io.silv.crcsim.R
+import io.silv.crcsim.feat_cookie_gacha.HistoryFilter
 import io.silv.crcsim.feat_cookie_gacha.compose.components.*
-import io.silv.crcsim.feat_cookie_gacha.container.HistoryFilter
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 

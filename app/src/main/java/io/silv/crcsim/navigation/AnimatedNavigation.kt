@@ -1,20 +1,11 @@
 package io.silv.crcsim.navigation
 
-
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
+import io.silv.crcsim.feat_treasure_gacha.compose.screens.TreasureGachaScreen
+import io.silv.crcsim.feat_ui_inventory.InventoryScreen
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -32,26 +23,16 @@ fun AnimatedNavigation(
             navController = navController,
         )
 
-        composable("Artifacts",
-            enterTransition = {
-                slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
-            },
-            exitTransition = {
-                fadeOut(animationSpec = tween(700))
-            },
-            popEnterTransition = {
-                slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700))
-            },
-            popExitTransition = {
-                fadeOut(animationSpec = tween(700))
+        slideInFadeOutComposable("Treasure") {
+           TreasureGachaScreen(
+               gachaInProgress = { inProgress ->
+                   navRailVisible(!inProgress)
+               }
+           )
+        }
 
-            }
-        ) {
-            Box(Modifier.fillMaxSize().clickable {
-                navController.navigate("Cookies")
-            }) {
-                Text(text = "Artifact screen", Modifier.align(Alignment.Center))
-            }
+        slideInFadeOutComposable("Inventory") {
+             InventoryScreen()
         }
     }
 }

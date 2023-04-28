@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d598fdfdb8477acb9389747d0c5f83a6",
+    "identityHash": "ec41b5638c51d30fc309e68f48a37495",
     "entities": [
       {
-        "tableName": "CookieEntity",
+        "tableName": "cookie",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `soulstone_count` INTEGER NOT NULL, PRIMARY KEY(`name`))",
         "fields": [
           {
@@ -31,8 +31,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "ArtifactEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `soulstone_count` INTEGER NOT NULL, PRIMARY KEY(`name`))",
+        "tableName": "treasure",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `count` INTEGER NOT NULL, PRIMARY KEY(`name`))",
         "fields": [
           {
             "fieldPath": "name",
@@ -41,8 +41,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "soulstoneCount",
-            "columnName": "soulstone_count",
+            "fieldPath": "count",
+            "columnName": "count",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -98,7 +98,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd598fdfdb8477acb9389747d0c5f83a6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ec41b5638c51d30fc309e68f48a37495')"
     ]
   }
 }

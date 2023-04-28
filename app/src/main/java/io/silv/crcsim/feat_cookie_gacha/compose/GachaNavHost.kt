@@ -9,7 +9,6 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import io.silv.crcsim.feat_cookie_gacha.CookieGachaViewModel
 import io.silv.crcsim.feat_cookie_gacha.compose.screens.*
 import io.silv.crcsim.navigation.composableFadeAnim
 import io.silv.crcsim.navigation.toGachaDest

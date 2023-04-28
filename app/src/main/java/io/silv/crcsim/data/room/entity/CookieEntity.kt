@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "cookie")
 data class CookieEntity(
 
     @PrimaryKey(autoGenerate = false)

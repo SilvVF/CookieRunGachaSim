@@ -15,6 +15,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
+import io.silv.crcsim.R
 
 @Composable
 fun CoilGif(
@@ -29,6 +30,7 @@ fun CoilGif(
     val ctx = LocalContext.current
     val imageLoader = remember {
         ImageLoader.Builder(ctx)
+            .placeholder(R.drawable.cookie_gacha_placeholder)
             .components {
                 if (Build.VERSION.SDK_INT >= 28) {
                     add(ImageDecoderDecoder.Factory())

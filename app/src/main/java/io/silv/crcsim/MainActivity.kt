@@ -19,7 +19,7 @@ import androidx.core.view.WindowCompat
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import io.silv.crcsim.navigation.AnimatedNavigation
 import io.silv.crcsim.navigation.NavItem
-import io.silv.crcsim.navigation.Navigations
+import io.silv.crcsim.navigation.CrkNavRail
 import io.silv.crcsim.ui.theme.CrcSimTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity() {
                         ),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    var selectedItem by remember { mutableStateOf(0) }
                     val items = listOf(
                         NavItem(
                             label = "Cookies",
@@ -53,18 +52,24 @@ class MainActivity : ComponentActivity() {
                             unselectedIcon = painterResource(id = R.drawable.cookies_unselected),
                         ),
                         NavItem(
-                            label = "Artifacts",
+                            label = "Treasure",
+                            selectedIcon = painterResource(id = R.drawable.treasure_nav_icon),
+                            unselectedIcon = painterResource(id = R.drawable.treasure_nav_icon_unselected),
+                        ),
+                        NavItem(
+                            label = "Inventory",
                             selectedIcon = painterResource(id = R.drawable.cookies_selected),
                             unselectedIcon = painterResource(id = R.drawable.cookies_unselected),
                         )
                     )
                     val navController = rememberAnimatedNavController()
+                    var selectedItem by remember { mutableStateOf(0) }
 
                     var navRailVisible by remember {
                         mutableStateOf(true)
                     }
 
-                    Navigations(
+                    CrkNavRail(
                         selectedItem = selectedItem,
                         navItems = items,
                         onSelected = {

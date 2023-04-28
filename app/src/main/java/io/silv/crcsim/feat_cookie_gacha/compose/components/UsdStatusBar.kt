@@ -51,7 +51,7 @@ fun MoneySpentStatusBar(
             Text(
                 text = "$${money}",
                 style = MaterialTheme.typography.titleSmall.copy(letterSpacing = 1.8.sp),
-                color = Color(0xff86efac),
+                color = Color.White,
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
                     .padding(

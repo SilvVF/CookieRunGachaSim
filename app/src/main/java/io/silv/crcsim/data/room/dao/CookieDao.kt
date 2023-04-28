@@ -20,11 +20,11 @@ interface CookieDao {
     @Update
     suspend fun updateCookie(vararg cookieEntity: CookieEntity)
 
-    @Query("SELECT * FROM cookieentity")
-    fun allCookiesFlow(): Flow<List<CookieEntity>?>
+    @Query("SELECT * FROM cookie")
+    fun allCookiesFlow(): Flow<List<CookieEntity>>
 
     @Query(
-        "SELECT * FROM cookieentity WHERE name = :name LIMIT 1"
+        "SELECT * FROM cookie WHERE name = :name LIMIT 1"
     )
     fun getCookieByName(name: String): CookieEntity?
 }

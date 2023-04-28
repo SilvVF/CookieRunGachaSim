@@ -39,9 +39,7 @@ fun RevealScreen(
                        when(rarity) {
                            Rarity.Common -> R.raw.common_cookie_anim
                            Rarity.Rare -> R.raw.rare_cookie_anim
-                           Rarity.Epic, Rarity.Special, Rarity.Legendary
-                           -> R.raw.epic_cookie_anim
-
+                           else -> R.raw.epic_cookie_anim
                        }
            )
        )
@@ -53,8 +51,7 @@ fun RevealScreen(
                     when(rarity) {
                         Rarity.Common -> R.raw.common_soulstone_anim
                         Rarity.Rare -> R.raw.rare_soulstone_anim
-                        Rarity.Epic, Rarity.Legendary, Rarity.Special
-                        -> R.raw.epic_soulstone_anim
+                        else  -> R.raw.epic_soulstone_anim
                     }
         )
     )
@@ -93,9 +90,8 @@ fun RevealIdleScreen(
                 onNavigate()
             }
     ) {
-
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         if (cookieDraw.full) {
-            Box(Modifier.fillMaxSize()) {
                 AsyncImage(
                     model = imageRequest,
                     contentDescription = "gacha background",
@@ -106,9 +102,7 @@ fun RevealIdleScreen(
                     modifier = Modifier.fillMaxSize(),
                     url = cookieDraw.cookie.imageUrl
                 )
-            }
         } else {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Image(
                     painter = painterResource(
                     when (cookieDraw.cookie.rarity) {
@@ -121,13 +115,41 @@ fun RevealIdleScreen(
                     contentScale = ContentScale.Crop
                 )
                 AsyncImage(
-                    model = imageRequest,
+                    model = imageRequest ,
                     contentDescription = "soulstone image",
                     modifier = Modifier.size(180.dp),
                     contentScale = ContentScale.Fit,
                     alignment = Alignment.Center
                 )
             }
+            CookieRarityTag(
+                modifier = Modifier.align(Alignment.BottomCenter)
+                    .fillMaxWidth(0.6f)
+                    .fillMaxHeight(0.12f)
+                    .padding(bottom = 12.dp),
+                rarity = cookieDraw.cookie.rarity
+            )
         }
     }
+}
+
+@Composable
+fun CookieRarityTag(
+    modifier: Modifier,
+    rarity: Rarity
+) {
+    Image(
+        painter = painterResource(
+            id = when (rarity) {
+                Rarity.Common -> R.drawable.common_tag
+                Rarity.Rare -> R.drawable.rare_tag
+                Rarity.Epic -> R.drawable.epic_tag
+                Rarity.Special -> R.drawable.super_epic_tag
+                Rarity.Ancient -> R.drawable.ancient_tag
+                Rarity.Legendary -> R.drawable.legendary_tag
+            }
+        ),
+        contentDescription = "Cookie rarity tag: $rarity",
+        modifier = modifier
+    )
 }

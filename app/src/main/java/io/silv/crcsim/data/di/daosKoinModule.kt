@@ -8,6 +8,6 @@ val daosKoinModule = module {
     includes(databaseKoinModule)
 
     single { get<CrDatabase>().cookieDao() }
-    single { get<CrDatabase>().artifactDao() }
+    single { get<CrDatabase>().treasureDao() }
     single { get<CrDatabase>().pullHistDao() }
 }
