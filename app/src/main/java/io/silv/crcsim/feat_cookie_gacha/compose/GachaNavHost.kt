@@ -25,6 +25,7 @@ fun GachaNavHost(
     val navHostController = rememberAnimatedNavController()
     val state by viewModel.collectAsState()
     val ctx = LocalContext.current
+    val filter by viewModel.currentFilter.collectAsState()
 
     val currentImageRequestList by remember(state.pull) {
         derivedStateOf {
@@ -96,7 +97,8 @@ fun GachaNavHost(
                 },
                 changeFilter = { filter ->
                     viewModel.changeFilter(filter)
-                }
+                },
+                filter = filter
             )
         }
 

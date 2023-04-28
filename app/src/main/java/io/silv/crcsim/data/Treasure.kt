@@ -18,7 +18,7 @@ enum class Treasure(
         rarity = Rarity.Epic,
         imageUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/9/9c/Treasure_blind_healers_staff_bg.png/revision/latest?cb=20221114164604"
     ),
-    BlossmingAcornBomb(
+    BlossomingAcornBomb(
         id = "Blossoming_Acorn_Bomb",
         rarity = Rarity.Special,
         imageUrl = "https://static.wikia.nocookie.net/cookierunkingdom/images/b/b4/Treasure_blossoming_acorn_bomb_bg.png/revision/latest?cb=20230328220053"

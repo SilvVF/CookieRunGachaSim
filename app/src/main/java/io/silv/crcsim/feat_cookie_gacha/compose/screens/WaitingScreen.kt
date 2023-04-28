@@ -22,6 +22,7 @@ import kotlin.math.roundToInt
 fun WaitingScreen(
     crystals: Int = 0,
     history: List<List<Pair<String, Int>>>,
+    filter: HistoryFilter,
     changeFilter: (filter: HistoryFilter) -> Unit,
     onDraw10Click: () -> Unit,
     onDraw1Click: () -> Unit,
@@ -123,7 +124,8 @@ fun WaitingScreen(
                 history = history,
                 show = historyVisible,
                 onDismissRequest = { historyVisible = false },
-                changeFilter = changeFilter
+                changeFilter = changeFilter,
+                filter = filter
             )
         }
     }

@@ -17,7 +17,7 @@ import io.silv.crcsim.ui.theme.CookieRun
 fun OverlappingText(
     text: String,
     fontSize: Float,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),

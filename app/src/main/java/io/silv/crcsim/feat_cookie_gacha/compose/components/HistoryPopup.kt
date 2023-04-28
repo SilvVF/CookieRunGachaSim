@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,7 @@ import io.silv.crcsim.feat_cookie_gacha.HistoryFilter
 fun HistoryPopup(
     history: List<List<Pair<String, Int>>>,
     show: Boolean,
+    filter: HistoryFilter,
     changeFilter: (filter: HistoryFilter) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -49,8 +51,25 @@ fun HistoryPopup(
         },
     ) {
 
+        val items = remember {
+            mapOf(
+                "All" to HistoryFilter.None,
+                "Cookie" to HistoryFilter.Cookie,
+                "Treasure" to HistoryFilter.Treasure,
+            )
+        }
         var dropdownExpanded by remember {
             mutableStateOf(false)
+        }
+        val currFilter by remember(filter) {
+            derivedStateOf {
+                for ((k, v) in items) {
+                    if (v == filter) {
+                        return@derivedStateOf k
+                    }
+                }
+                return@derivedStateOf "All"
+            }
         }
 
         Column(
@@ -63,7 +82,7 @@ fun HistoryPopup(
         ) {
             Box(Modifier.fillMaxWidth()) {
                 OverlappingText(
-                    text = "Cookie Gacha History",
+                    text = "$currFilter Gacha History",
                     fontSize = 32f,
                     modifier = Modifier
                 )
@@ -77,9 +96,6 @@ fun HistoryPopup(
                     )
                 }
                 DropdownMenu(expanded = dropdownExpanded, onDismissRequest = { dropdownExpanded = false }, offset = DpOffset(x = 140.dp, y = 0.dp)) {
-                    val items = listOf<Pair<String, HistoryFilter>>(
-                        "None" to HistoryFilter.None, "Cookies" to HistoryFilter.Cookie, "Artifacts" to HistoryFilter.Artifact,
-                    )
                     items.forEach { (name, filter) ->
                         DropdownMenuItem(
                             text = { Text(name) },

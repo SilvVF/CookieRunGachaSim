@@ -10,6 +10,16 @@ sealed interface Rarity {
     object Ancient: Rarity
 }
 
+fun Rarity.toComparable() = when (this) {
+        Rarity.Common -> 1
+        Rarity.Rare -> 2
+        Rarity.Epic -> 3
+        Rarity.Special -> 4
+        Rarity.Ancient -> 5
+        Rarity.Legendary -> 6
+    }
+
+
 fun Rarity.string(): String {
     return when (this) {
         Rarity.Rare -> "r"

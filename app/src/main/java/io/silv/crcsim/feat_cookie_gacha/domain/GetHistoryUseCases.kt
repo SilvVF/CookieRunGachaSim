@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 fun interface FetchHistoryUseCase : () -> Flow<List<List<Pair<String, Int>>>>
 
-fun interface FetchArtifactHistoryUseCase : () -> Flow<List<List<Pair<String, Int>>>>
+fun interface FetchTreasureHistory : () -> Flow<List<List<Pair<String, Int>>>>
 
 fun interface FetchCookieHistoryUseCase : () -> Flow<List<List<Pair<String, Int>>>>
 
@@ -30,10 +30,10 @@ fun fetchCookieHistoryUseCaseImpl(
     return histDao.getCookieHistory().mapToPairs()
 }
 
-fun fetchArtifactHistoryUseCaseImpl(
+fun fetchTreasureHistoryUseCaseImpl(
     histDao: PullHistDao
 ):  Flow<List<List<Pair<String, Int>>>> {
-    return histDao.getArtifactHistory().mapToPairs()
+    return histDao.getTreasureHistory().mapToPairs()
 }
 
 

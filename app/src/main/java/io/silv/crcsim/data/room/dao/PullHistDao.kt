@@ -16,8 +16,8 @@ interface PullHistDao {
     @Query("SELECT * FROM pull_hist WHERE type = 'cookie' ")
     fun getCookieHistory(): Flow<List<PullHistEntity>>
 
-    @Query("SELECT * FROM pull_hist WHERE type = 'artifact' ")
-    fun getArtifactHistory(): Flow<List<PullHistEntity>>
+    @Query("SELECT * FROM pull_hist WHERE type = '${PullHistEntity.treasureType}'")
+    fun getTreasureHistory(): Flow<List<PullHistEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addHistoryItem(pullHistEntity: PullHistEntity)

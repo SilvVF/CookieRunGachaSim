@@ -32,7 +32,7 @@ data class GachaState(
 sealed interface HistoryFilter {
     object None: HistoryFilter
     object Cookie: HistoryFilter
-    object Artifact: HistoryFilter
+    object Treasure: HistoryFilter
 }
 
 fun Pity.update(cookieDraw: CookieDraw): Pity =
